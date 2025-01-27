@@ -52,32 +52,11 @@ const ToDoList: React.FC<ToDoListProps> = ({ user }) => {
     }
   };
 
-  const handleMarkAsDone = (task: any) => {
-    alert(`Marked as done: ${task.subject}`);
-  };
-
-  const handleIgnore = (task: any) => {
-    alert(`Ignored task: ${task.subject}`);
-  };
-
-  const handleViewDetails = (task: any) => {
-    alert(`Details:\n${task.detailed_tasks}`);
-  };
-
   return (
     <div>
       <h3>Welcome, {user}</h3>
       <button onClick={handleFetchEmails}>Create Todo</button>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <TaskList
-          tasks={tasks}
-          onMarkAsDone={handleMarkAsDone}
-          onIgnore={handleIgnore}
-          onViewDetails={handleViewDetails}
-        />
-      )}
+      {loading ? <div>Loading...</div> : <TaskList tasks={tasks} />}
     </div>
   );
 };

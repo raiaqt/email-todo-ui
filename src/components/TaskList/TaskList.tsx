@@ -11,17 +11,9 @@ interface Task {
 
 interface TaskListProps {
   tasks: Task[];
-  onMarkAsDone: (task: Task) => void;
-  onIgnore: (task: Task) => void;
-  onViewDetails: (task: Task) => void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({
-  tasks,
-  onMarkAsDone,
-  onIgnore,
-  onViewDetails,
-}) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
   return (
     <div className="task-list">
       {tasks.map((task, index) => (
