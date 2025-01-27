@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import GoogleLoginButton from "./components/GoogleLoginButton";
-import { jwtDecode, JwtPayload } from "jwt-decode"; // For decoding Google ID tokens
+import { jwtDecode } from "jwt-decode"; // For decoding Google ID tokens
 import { googleLogout } from "@react-oauth/google";
 import ToDoList from "./components/ToDoList";
 import { exchangeCodeForTokens } from "./api/auth";
+import { JwtPayloadWithName } from "./types";
 import "./App.css";
-
-interface JwtPayloadWithName extends JwtPayload {
-  name: string;
-}
 
 const App: React.FC = () => {
   const [user, setUser] = useState<string | null>(null);

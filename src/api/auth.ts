@@ -1,5 +1,6 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // For decoding Google ID tokens
+import { JwtPayloadWithName } from "../types";
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;
@@ -36,8 +37,8 @@ export const exchangeCodeForTokens = async (
     const decodedToken = jwtDecode(id_token);
 
     const now = Math.floor(Date.now() / 1000);
-    if (decodedToken.exp > now && callback) {
-      callback(decodedToken.name); // Token is valid, set user as logged in
+    if (decodedToken && decodedToken.exp && decodedToken.exp > now && callback) {
+      callback((decodedToken as JwtPayloadWithName).name); // Token is valid, set user as logged in
     }
     return id_token;
 
