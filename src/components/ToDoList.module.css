@@ -1,0 +1,94 @@
+/* Updated Container styling to fill the entire page with extra horizontal spacing and a soft gradient background */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 80px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #ffffff, #f8f8f8);
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Header Container styling */
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Header styling */
+.header {
+    font-size: 32px;
+    color: #4e54c8;
+    margin: 0;
+    flex: 1;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Button styling */
+.button {
+    display: block;
+    width: 100%;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading styling */
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Keyframes for fadeIn animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Override for Create Todo button to have a fixed width */
+.createTodoButton {
+    width: 300px;
+    margin: 0 auto 20px;
+}
+
+/* Spinner styling for loading state */
+.spinner {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #4e54c8; /* Brand color */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: 40px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+} 

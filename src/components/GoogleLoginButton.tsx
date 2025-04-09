@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./GoogleLoginButton.css";
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
@@ -16,8 +16,31 @@ const GoogleLoginButton: React.FC = () => {
     window.location.href = authUrl;
   };
   return (
-    <div>
-      <button onClick={handleLogin}>Login with Google</button>
+    <div className="landing-container">
+      <header className="landing-header">
+        <div className="logo">SortifyAI</div>
+      </header>
+      <div className="landing-hero">
+        <h1>Welcome to SortifyAI</h1>
+        <p>Your personal assistant for email tasks.</p>
+        <button className="landing-button" onClick={handleLogin}>
+          Get Started
+        </button>
+      </div>
+      <div className="landing-features">
+        <div className="landing-feature">
+          <h3>Organize Emails</h3>
+          <p>Sort and filter your inbox with ease.</p>
+        </div>
+        <div className="landing-feature">
+          <h3>Automate Tasks</h3>
+          <p>Turn emails into actionable todos.</p>
+        </div>
+        <div className="landing-feature">
+          <h3>Gain Insights</h3>
+          <p>Get smart analytics at a glance.</p>
+        </div>
+      </div>
     </div>
   );
 };

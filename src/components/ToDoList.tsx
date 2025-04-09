@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import TaskList from "./TaskList/TaskList";
+import styles from "./ToDoList.module.css";
+import { googleLogout } from "@react-oauth/google";
 
 interface Task {
   deadline: string;
@@ -17,6 +19,14 @@ interface ToDoListProps {
 const ToDoList: React.FC<ToDoListProps> = ({ user }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const handleLogout = () => {
+    googleLogout();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("idToken");
+    window.location.reload();
+  };
 
   const handleFetchEmails = async () => {
     try {
@@ -53,10 +63,19 @@ const ToDoList: React.FC<ToDoListProps> = ({ user }) => {
   };
 
   return (
-    <div>
-      <h3>Welcome, {user}</h3>
-      <button onClick={handleFetchEmails}>Create Todo</button>
-      {loading ? <div>Loading...</div> : <TaskList tasks={tasks} />}
+    <div className={styles.container}>
+      <div className={styles.headerContainer}>
+        <h3 className={styles.header}>Welcome, {user}</h3>
+        <div>
+          <button className={styles.button} onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      </div>
+      <button className={`${styles.button} ${styles.createTodoButton}`} onClick={handleFetchEmails}>
+        Create Todo
+      </button>
+      {loading ? <div className={styles.spinner}></div> : <TaskList tasks={tasks} />}
     </div>
   );
 };
