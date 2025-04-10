@@ -1,97 +1,178 @@
-/* Container styling */
 .task-list {
-    padding: 20px 40px;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 60px;
 }
 
-/* Task item styling */
-.task-item {
+.task-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    position: relative;
+    border-left: 4px solid transparent;
 }
 
-/* Task info styling */
-.task-info {
+.task-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.task-card.priority {
+    border-left: 4px solid #F97316;
+}
+
+/* ✅ Muted when marked as done */
+.task-card.done {
+    opacity: 0.65;
+    border-left: 4px solid #d1d5db;
+    background-color: #f9fafb;
+}
+
+/* Checkbox styling */
+.task-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
     flex: 1;
+    max-width: calc(100% - 100px);
+}
+
+.task-left input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    margin-top: 2px;
+}
+
+.task-left input[type="checkbox"]:checked {
+    background-color: #F97316;
+    border-color: #F97316;
+}
+
+.task-left input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+}
+
+.task-left input[type="checkbox"]:checked::before {
+    opacity: 1;
+}
+
+.task-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+/* Task content */
+.task-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .task-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0;
-}
-
-.task-deadline {
-    font-size: 14px;
-    color: gray;
-    margin: 0;
-}
-
-.task-summary {
     font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
     margin: 0;
-    flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
-/* Add styling for completed task summary */
-.task-summary.completed {
+.task-title.completed {
     text-decoration: line-through;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
-/* Task actions */
-.task-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.btn {
-    padding: 8px 12px;
+.task-meta {
     font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    color: #6b7280;
 }
 
-.btn-done {
-    background-color: #4caf50;
-    color: white;
+/* Snooze button */
+.task-actions {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.btn-ignore {
-    background-color: #f44336;
-    color: white;
-}
-
-.btn-details {
-    background-color: #2196f3;
-    color: white;
-}
-
-.btn:hover {
-    opacity: 0.9;
-}
-
-/* Add styling for enlarged checkbox */
-.task-item input[type="checkbox"] {
-    transform: scale(1.5);
-    margin-right: 15px;
-}
-
-/* Add styling for task-info-line to display summary and deadline in one line */
-.task-info-line {
+.task-card:hover .task-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    width: 100%;
 }
-  
+
+.task-btn.snooze {
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: #facc15;
+    color: #1f2937;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 🧠 Prioritize button */
+.task-btn.prioritize {
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: #4338CA;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 60px 20px;
+    margin-top: 40px;
+    animation: fadeIn 0.3s ease-in-out;
+    color: #6b7280;
+}
+
+.placeholder svg {
+    font-size: 48px;
+}
+
+.placeholder p {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.placeholder.empty {
+    color: #9ca3af;
+}
+
+.placeholder.error {
+    color: #ef4444;
+}
+
+/* Added to always display task buttons on mobile devices */
+@media (max-width: 768px) {
+  .task-actions {
+    display: flex;
+  }
+}
