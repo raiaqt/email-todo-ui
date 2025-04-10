@@ -92,7 +92,7 @@ const LandingPage: React.FC = () => {
                 />
               </button>
               <button className="btn ghost" onClick={handleWaitlistClick}>
-                Join the Waitlist
+                Join the Beta
               </button>
             </div>
           </div>

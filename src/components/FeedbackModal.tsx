@@ -14,7 +14,7 @@ const FeedbackModal: React.FC<Props> = ({ show, message, onClose }) => {
     <div className="modal">
       <div className="modal-content animated">
         <span className="close" onClick={onClose}>&times;</span>
-        <h2>Thanks for your interest!</h2>
+        <h2>Thanks for your joining!</h2>
         <p>{message}</p>
         <button onClick={onClose}>Close</button>
       </div>
