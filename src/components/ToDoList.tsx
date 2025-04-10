@@ -20,7 +20,7 @@ interface ToDoListProps {
   user: string;
 }
 
-const ToDoList: React.FC<ToDoListProps> = ({ user }) => {
+const ToDoList: React.FC<ToDoListProps> = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
   const [captionIndex, setCaptionIndex] = useState(0);

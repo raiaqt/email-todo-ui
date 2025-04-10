@@ -13,6 +13,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import SearchIcon from '@mui/icons-material/Search';
 import ListIcon from '@mui/icons-material/List';
 import { submitEmail } from "../api/submitEmail";
+import WaitlistModal from "./WaitlistModal";
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
@@ -21,9 +22,9 @@ const LandingPage: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState("");
-  const [feedbackMessage, setFeedbackMessage] = useState("");
+  // const [feedbackMessage, setFeedbackMessage] = useState("");
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  // const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   const handleConnectGmail = () => {
     // Replace with your actual authentication logic.
@@ -44,23 +45,23 @@ const LandingPage: React.FC = () => {
     try {
       await submitEmail(email);
       // Set a custom success message
-      setFeedbackMessage(
-        "Thank you for subscribing! You'll receive an invite via email shortly."
-      );
+      // setFeedbackMessage(
+      //   "Thank you for subscribing! You'll receive an invite via email shortly."
+      // );
       setEmail("");
       setShowWaitlistModal(false);
     } catch (error: unknown) {
       // Set a custom error message based on the error, if available
-      setFeedbackMessage(
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again later."
-      );
+      // setFeedbackMessage(
+      //   error instanceof Error
+      //     ? error.message
+      //     : "Something went wrong. Please try again later."
+      // );
       console.error(error);
     } finally {
       setIsSubmitting(false);
       // Open the feedback modal after submit attempt
-      setShowFeedbackModal(true);
+      // setShowFeedbackModal(true);
     }
   };
 
@@ -202,27 +203,14 @@ const LandingPage: React.FC = () => {
         </div>
       </footer>
 
-      {showWaitlistModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setShowWaitlistModal(false)}>&times;</span>
-            <form onSubmit={handleJoinWaitlist}>
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+      <WaitlistModal
+        show={showWaitlistModal}
+        onClose={() => setShowWaitlistModal(false)}
+        onSubmit={handleJoinWaitlist}
+        email={email}
+        onEmailChange={(e) => setEmail(e.target.value)}
+        isSubmitting={isSubmitting}
+      />
     </div>
   );
 };
