@@ -3,28 +3,28 @@ import "./LandingPage.css";
 import inboxflow from "../assets/inboxflow.png";
 import dashboard from "../assets/dashboard.png";
 import logo from "../assets/logo.png";
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import FlashOnIcon from '@mui/icons-material/FlashOn';
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import SnoozeIcon from '@mui/icons-material/Snooze';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import PublicIcon from '@mui/icons-material/Public';
-import EmailIcon from '@mui/icons-material/Email';
-import SearchIcon from '@mui/icons-material/Search';
-import ListIcon from '@mui/icons-material/List';
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import FlashOnIcon from "@mui/icons-material/FlashOn";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import SnoozeIcon from "@mui/icons-material/Snooze";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import PublicIcon from "@mui/icons-material/Public";
+import EmailIcon from "@mui/icons-material/Email";
+import SearchIcon from "@mui/icons-material/Search";
+import ListIcon from "@mui/icons-material/List";
 import { submitEmail } from "../api/submitEmail";
 import WaitlistModal from "./WaitlistModal";
+import FeedbackModal from "./FeedbackModal";
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
 const LandingPage: React.FC = () => {
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState("");
-  // const [feedbackMessage, setFeedbackMessage] = useState("");
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
-  // const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const handleConnectGmail = () => {
     // Replace with your actual authentication logic.
@@ -36,32 +36,30 @@ const LandingPage: React.FC = () => {
     window.location.href = authUrl;
   };
 
-  const handleJoinWaitlist = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ) => {
+  const handleJoinWaitlist = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
       await submitEmail(email);
       // Set a custom success message
-      // setFeedbackMessage(
-      //   "Thank you for subscribing! You'll receive an invite via email shortly."
-      // );
+      setFeedbackMessage(
+        "You'll receive an invite soon. Get ready for a more productive inbox!"
+      );
       setEmail("");
       setShowWaitlistModal(false);
     } catch (error: unknown) {
       // Set a custom error message based on the error, if available
-      // setFeedbackMessage(
-      //   error instanceof Error
-      //     ? error.message
-      //     : "Something went wrong. Please try again later."
-      // );
+      setFeedbackMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again later."
+      );
       console.error(error);
     } finally {
       setIsSubmitting(false);
       // Open the feedback modal after submit attempt
-      // setShowFeedbackModal(true);
+      setShowFeedbackModal(true);
     }
   };
 
@@ -85,7 +83,13 @@ const LandingPage: React.FC = () => {
             <div className="hero-cta">
               <button className="btn primary" onClick={handleConnectGmail}>
                 Connect Gmail
-                <EmailIcon style={{ marginLeft: '8px', marginRight: '0', verticalAlign: 'middle' }} />
+                <EmailIcon
+                  style={{
+                    marginLeft: "8px",
+                    marginRight: "0",
+                    verticalAlign: "middle",
+                  }}
+                />
               </button>
               <button className="btn ghost" onClick={handleWaitlistClick}>
                 Join the Waitlist
@@ -103,19 +107,19 @@ const LandingPage: React.FC = () => {
         <div className="steps">
           <div className="step">
             <div className="step-icon">
-              <EmailIcon style={{ fontSize: 60, color: '#F97316' }} />
+              <EmailIcon style={{ fontSize: 60, color: "#F97316" }} />
             </div>
             <h3>Connect Gmail</h3>
           </div>
           <div className="step">
             <div className="step-icon">
-              <SearchIcon style={{ fontSize: 60, color: '#F97316' }} />
+              <SearchIcon style={{ fontSize: 60, color: "#F97316" }} />
             </div>
             <h3>Sortify scans your inbox</h3>
           </div>
           <div className="step">
             <div className="step-icon">
-              <ListIcon style={{ fontSize: 60, color: '#F97316' }} />
+              <ListIcon style={{ fontSize: 60, color: "#F97316" }} />
             </div>
             <h3>You get a clean to-do list every morning</h3>
           </div>
@@ -152,7 +156,9 @@ const LandingPage: React.FC = () => {
             </div>
             <div className="benefit-item">
               <PublicIcon />
-              <span>Future expansions to include holistic AI productivity tools</span>
+              <span>
+                Future expansions to include holistic AI productivity tools
+              </span>
             </div>
           </div>
         </div>
@@ -162,11 +168,15 @@ const LandingPage: React.FC = () => {
         <h2>What Our Users Say</h2>
         <div className="testimonial-list">
           <div className="testimonial">
-            <p><i>"I finally stopped forgetting email tasks."</i></p>
+            <p>
+              <i>"I finally stopped forgetting email tasks."</i>
+            </p>
             <span>- Freelance Designer</span>
           </div>
           <div className="testimonial">
-            <p><i>"Sortify is my quiet AI assistant."</i></p>
+            <p>
+              <i>"Sortify is my quiet AI assistant."</i>
+            </p>
             <span>- Solo Startup Founder</span>
           </div>
         </div>
@@ -210,6 +220,11 @@ const LandingPage: React.FC = () => {
         email={email}
         onEmailChange={(e) => setEmail(e.target.value)}
         isSubmitting={isSubmitting}
+      />
+      <FeedbackModal
+        message={feedbackMessage}
+        show={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
       />
     </div>
   );

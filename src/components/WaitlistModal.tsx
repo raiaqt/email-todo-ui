@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import "./WaitlistModal.css";
 
 interface WaitlistModalProps {
   show: boolean;
@@ -15,26 +16,35 @@ const WaitlistModal: React.FC<WaitlistModalProps> = ({
   onSubmit,
   email,
   onEmailChange,
-  isSubmitting
+  isSubmitting,
 }) => {
   if (!show) return null;
 
+  const isValidEmail = email === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   return (
     <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
+      <div className="modal-content animated">
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
+        <h2>Be first to try Sortify!</h2>
+        <p>Join our waitlist by entering your email below.</p>
         <form onSubmit={onSubmit}>
-          <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
             name="email"
+            className={isValidEmail ? "" : "invalid"}
             value={email}
             onChange={onEmailChange}
             required
           />
+          {!isValidEmail && (
+            <span className="error-text">Please enter a valid email.</span>
+          )}
           <button type="submit" disabled={isSubmitting}>
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
