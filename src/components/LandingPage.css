@@ -1,7 +1,7 @@
 /* Global Container */
 .landing-container {
   font-family: 'Inter', sans-serif;
-  background: #fff;
+  background: #F3F4F6;
   color: #333;
   line-height: 1.6;
 }
@@ -12,16 +12,29 @@
   align-items: center;
   justify-content: space-between;
   padding: 60px 80px;
-  background: #f9f9f9;
+  background: #FAF9F4; /* Very light beige */
 }
 
 .hero-content {
   max-width: 600px;
+  position: relative; /* Ensures logo can be positioned nicely */
+}
+
+.sortify-logo {
+  height: 3em;
+  width: auto;
+}
+
+.hero h2 {
+  font-size: 30px;
+  color: #ff4c39;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .hero h1 {
   font-size: 48px;
-  color: #4338CA;
+  color: #171e69;
   margin-bottom: 20px;
 }
 
@@ -36,17 +49,24 @@
   gap: 20px;
 }
 
+.hero-cta button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .btn {
   padding: 16px 32px;
   font-size: 18px;
-  border-radius: 30px;
+  border-radius: 8px;
   cursor: pointer;
   border: none;
   transition: background 0.3s, transform 0.3s;
+  font-weight: 500;
 }
 
 .btn.primary {
-  background: #F97316;
+  background: #171e69;
   color: #fff;
 }
 
@@ -56,13 +76,18 @@
 
 .btn.ghost {
   background: transparent;
-  border: 2px solid #F97316;
-  color: #F97316;
+  border: 2px solid #171e69;
+  color: #171e69;
 }
 
 .btn.ghost:hover {
-  background: #F97316;
+  background: #171e69;
   color: #fff;
+}
+
+.btn svg {
+  vertical-align: middle;
+  margin-right: 8px; /* Space between icon and text */
 }
 
 .hero-illustration img {
@@ -74,7 +99,7 @@
 .how-it-works {
   padding: 80px;
   text-align: center;
-  background: #f4f4f4;
+  background: #FFFFFF;
 }
 
 .how-it-works h2 {
@@ -95,7 +120,7 @@
 }
 
 .step-icon {
-  background: #4338CA;
+  background: #F97316;
   color: #fff;
   width: 60px;
   height: 60px;
@@ -115,6 +140,7 @@
 /* Benefits Section */
 .benefits {
   padding: 80px;
+  background: #F3F4F6;
 }
 
 .benefits h2 {
@@ -132,7 +158,7 @@
 }
 
 .dashboard-image img {
-  max-width: 400px;
+  max-width: 600px;
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -151,15 +177,18 @@
   font-size: 18px;
 }
 
-.benefit-item .icon {
+.benefit-item svg {
   font-size: 28px;
+  color: #4338CA;
+  margin-right: 10px;
 }
 
 /* Testimonials Section */
 .testimonials {
   padding: 80px;
-  background: #f9f9f9;
+  background: #FFFFFF; /* Light background for contrast */
   text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds depth */
 }
 
 .testimonials h2 {
@@ -173,25 +202,51 @@
   gap: 20px;
   max-width: 600px;
   margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9; /* Subtle background for each testimonial */
+  border-radius: 10px; /* Rounded corners for the container */
 }
 
 .testimonial {
   font-style: italic;
   font-size: 20px;
   color: #555;
+  position: relative;
+  padding: 20px;
+  border-left: 5px solid #F97316; /* Adds a brand-colored bar to the left */
+}
+
+.testimonial p {
+  quotes: "“" "”" "‘" "’";
+  padding: 0 15px;
+  display: inline;
+  line-height: 1.6;
+  before {
+    content: open-quote;
+    font-size: 28px;
+    vertical-align: -0.4em;
+    color: #F97316;
+  }
+  after {
+    content: close-quote;
+    font-size: 28px;
+    vertical-align: -0.4em;
+    color: #F97316;
+  }
 }
 
 .testimonial span {
   display: block;
   margin-top: 10px;
   font-weight: bold;
-  color: #4338CA;
+  color: #171e69;
 }
 
 /* Pricing Section */
 .pricing {
   padding: 80px;
   text-align: center;
+  background: #F3F4F6;
 }
 
 .pricing h2 {
@@ -225,15 +280,13 @@
 /* Footer */
 .footer {
   padding: 40px 80px;
-  background: #fff;
-  border-top: 1px solid #eee;
+  background: #F3F4F6;
+  border-top: 1px solid #E5E7EB;
   text-align: center;
 }
 
 .footer-logo {
-  font-size: 28px;
-  font-weight: bold;
-  color: #4338CA;
+  height: 2em;
   margin-bottom: 10px;
 }
 

@@ -1,5 +1,15 @@
 import React from "react";
 import "./LandingPage.css";
+import inboxflow from "../assets/inboxflow.png";
+import dashboard from "../assets/dashboard.png";
+import logo from "../assets/logo.png";
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import FlashOnIcon from '@mui/icons-material/FlashOn';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import SnoozeIcon from '@mui/icons-material/Snooze';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import PublicIcon from '@mui/icons-material/Public';
+import EmailIcon from '@mui/icons-material/Email';
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
@@ -26,25 +36,28 @@ const LandingPage: React.FC = () => {
     <div className="landing-container">
       <section className="hero">
         <div className="hero-content">
-          <h1>Turn your inbox into a smart, focused to-do list.</h1>
-          <p>
-            AI-powered clarity from the chaos of email. Get started in seconds.
-          </p>
-          <div className="hero-cta">
-            <button className="btn primary" onClick={handleConnectGmail}>
-              Connect Gmail
-            </button>
-            <button className="btn ghost" onClick={handleSeeHowItWorks}>
-              See How It Works
-            </button>
+          <div>
+            <img src={logo} alt="Sortify logo" className="sortify-logo" />
+            <h2>Sortify</h2>
+            <h1>Turn your inbox into a smart, focused to-do list.</h1>
+            <p>
+              AI-powered clarity from the chaos of email. Get started in seconds
+              and prepare for a future where all your productivity tools are
+              seamlessly integrated.
+            </p>
+            <div className="hero-cta">
+              <button className="btn primary" onClick={handleConnectGmail}>
+                Connect Gmail
+                <EmailIcon style={{ marginLeft: '8px', marginRight: '0', verticalAlign: 'middle' }} />
+              </button>
+              <button className="btn ghost" onClick={handleSeeHowItWorks}>
+                See How It Works
+              </button>
+            </div>
           </div>
         </div>
         <div className="hero-illustration">
-          {/* Replace with an actual illustration image if available */}
-          <img
-            src="assets/landing-illustration.svg"
-            alt="Illustration of inbox to tasks flow"
-          />
+          <img src={inboxflow} alt="Illustration of inbox to tasks flow" />
         </div>
       </section>
 
@@ -71,28 +84,32 @@ const LandingPage: React.FC = () => {
         <div className="benefits-content">
           <div className="dashboard-image">
             {/* Replace with an actual dashboard image if available */}
-            <img src="assets/dashboard.png" alt="Clean dashboard" />
+            <img src={dashboard} height={300} alt="Clean dashboard" />
           </div>
           <div className="benefits-list">
             <div className="benefit-item">
-              <span className="icon">📝</span>
-              <p>Extracts tasks from emails</p>
+              <AssignmentTurnedInIcon />
+              <span>Extracts tasks from emails</span>
             </div>
             <div className="benefit-item">
-              <span className="icon">⚡</span>
-              <p>Prioritizes what matters</p>
+              <FlashOnIcon />
+              <span>Prioritizes what matters</span>
             </div>
             <div className="benefit-item">
-              <span className="icon">📅</span>
-              <p>Daily AI digest</p>
+              <EventNoteIcon />
+              <span>Daily AI digest</span>
             </div>
             <div className="benefit-item">
-              <span className="icon">⏰</span>
-              <p>Snooze + mark done</p>
+              <SnoozeIcon />
+              <span>Snooze + mark done</span>
             </div>
             <div className="benefit-item">
-              <span className="icon">🚀</span>
-              <p>Pro integrations coming soon</p>
+              <RocketLaunchIcon />
+              <span>Pro integrations coming soon</span>
+            </div>
+            <div className="benefit-item">
+              <PublicIcon />
+              <span>Future expansions to include holistic AI productivity tools</span>
             </div>
           </div>
         </div>
@@ -102,17 +119,17 @@ const LandingPage: React.FC = () => {
         <h2>What Our Users Say</h2>
         <div className="testimonial-list">
           <div className="testimonial">
-            <p>"I finally stopped forgetting email tasks."</p>
+            <p><i>"I finally stopped forgetting email tasks."</i></p>
             <span>- Freelance Designer</span>
           </div>
           <div className="testimonial">
-            <p>"Sortify is my quiet AI assistant."</p>
+            <p><i>"Sortify is my quiet AI assistant."</i></p>
             <span>- Solo Startup Founder</span>
           </div>
         </div>
       </section>
 
-      <section className="pricing">
+      {/* <section className="pricing">
         <h2>Pricing</h2>
         <div className="pricing-cards">
           <div className="pricing-card">
@@ -129,10 +146,12 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
         <button className="btn primary">Start Free</button>
-      </section>
+      </section> */}
 
       <footer className="footer">
-        <div className="footer-logo">Sortify</div>
+        <div className="footer-logo">
+          <img src={logo} alt="Sortify logo" className="footer-logo" />
+        </div>
         <p className="tagline">Work clearer with AI</p>
         <div className="footer-links">
           <a href="#">Privacy</a>
