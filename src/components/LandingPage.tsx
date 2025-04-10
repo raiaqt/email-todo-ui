@@ -207,7 +207,7 @@ const LandingPage: React.FC = () => {
         </div>
         <p className="tagline">Work clearer with AI</p>
         <div className="footer-links">
-          <a href="#">Privacy</a>
+          <a href="/privacy">Privacy</a>
           <a href="#">Contact</a>
           <a href="#">Twitter</a>
         </div>
