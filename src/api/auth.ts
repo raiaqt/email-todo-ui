@@ -9,7 +9,7 @@ const TOKEN_URL = import.meta.env.VITE_TOKEN_URL;
 
 export const exchangeCodeForTokens = async (
   authorizationCode: string,
-  callback?: (name: string) => void
+  callback?: (name: string | null) => void
 ) => {
   try {
     // Make a POST request to Google's token endpoint
@@ -37,7 +37,12 @@ export const exchangeCodeForTokens = async (
     const decodedToken = jwtDecode(id_token);
 
     const now = Math.floor(Date.now() / 1000);
-    if (decodedToken && decodedToken.exp && decodedToken.exp > now && callback) {
+    if (
+      decodedToken &&
+      decodedToken.exp &&
+      decodedToken.exp > now &&
+      callback
+    ) {
       callback((decodedToken as JwtPayloadWithName).name); // Token is valid, set user as logged in
     }
     return id_token;
@@ -45,6 +50,9 @@ export const exchangeCodeForTokens = async (
     // alert("Login successful! Tokens stored in localStorage.");
   } catch (error) {
     console.error("Error exchanging authorization code:", error);
+    if (callback) {
+      callback(null);
+    }
     // alert("Failed to exchange authorization code.");
   }
 };
