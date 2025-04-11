@@ -103,9 +103,9 @@ const ToDoList: React.FC<ToDoListProps> = () => {
           <button className={styles.upgradeButton} onClick={handleLogout}>
             Logout
           </button>
-          <div className={styles.avatar}>
+          {/* <div className={styles.avatar}>
             <AccountCircleIcon />
-          </div>
+          </div> */}
         </div>
       </header>
 
