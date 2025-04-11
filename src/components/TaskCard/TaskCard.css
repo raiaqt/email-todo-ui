@@ -1,0 +1,152 @@
+/* TaskCard.css - Styles for TaskCard component */
+
+.task-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: all 0.2s ease;
+    position: relative;
+    border-left: 4px solid transparent;
+}
+
+.task-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.task-card.priority {
+    border-left: 4px solid #F97316;
+}
+
+.task-card.done {
+    opacity: 0.65;
+    border-left: 4px solid #d1d5db;
+    background-color: #f9fafb;
+}
+
+.task-card.new-task {
+    background-color: #f0f8ff; /* Light blue to indicate a new task */
+    animation: popUp 1s ease-in-out;
+}
+
+.task-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+    max-width: calc(100% - 80px);
+}
+
+.task-left input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    margin-top: 2px;
+}
+
+.task-left input[type="checkbox"]:checked {
+    background-color: #F97316;
+    border-color: #F97316;
+}
+
+.task-left input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+}
+
+.task-left input[type="checkbox"]:checked::before {
+    opacity: 1;
+}
+
+.task-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.task-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+}
+
+.task-title.completed {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.task-meta {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 2px 0;
+}
+
+.task-actions {
+    display: none;
+}
+
+.task-card:hover .task-actions {
+    display: flex;
+}
+
+.task-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: transparent;
+    padding: 0;
+    filter: brightness(0.9);
+}
+
+.task-btn:active {
+    outline: none;
+    border: none;
+}
+
+.task-btn.prioritize {
+    color: #4338CA;
+}
+
+.task-btn.snooze {
+    color: #facc15;
+}
+
+.task-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1);
+}
+
+/* Animation for new task pop up */
+@keyframes popUp {
+    0% { transform: scale(0.9); opacity: 0.5; }
+    50% { transform: scale(1.05); opacity: 1; }
+    70% { transform: scale(0.975); }
+    100% { transform: scale(1); }
+} 

@@ -6,6 +6,7 @@ import { googleLogout } from "@react-oauth/google";
 import logo from "../assets/logo.png";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import ArchiveList from "./ArchiveList/ArchiveList";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,6 +17,7 @@ interface ToDoListProps {
 const ToDoList: React.FC<ToDoListProps> = () => {
   const [loading, setLoading] = useState(false);
   const [captionIndex, setCaptionIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState("All");
   const loadingCaptions = [
     "Hold tight, email ninjas at work!",
     "Counting emails like they're treasure...",
@@ -42,13 +44,30 @@ const ToDoList: React.FC<ToDoListProps> = () => {
 
       setLoading(true);
 
+      const lastUpdated = localStorage.getItem("lastUpdated");
+
       const response = await axios.post(
         `${API_URL}/fetch-emails`,
-        { access_token: accessToken },
+        { access_token: accessToken, last_updated: lastUpdated },
         { headers: { "Content-Type": "application/json" } }
       );
 
-      localStorage.setItem("tasks", JSON.stringify(response.data.tasks));
+      const newTasks = response.data.tasks.map((task: { deadline: string; detailed_tasks: string; from: string; subject: string; summary: string }) => ({ ...task, isNew: true }));
+      const storedTasks = localStorage.getItem("tasks");
+      let mergedTasks;
+      if (storedTasks) {
+        mergedTasks = JSON.parse(storedTasks).concat(newTasks);
+      } else {
+        mergedTasks = newTasks;
+      }
+      mergedTasks.sort((a: { deadline: string }, b: { deadline: string }) => {
+        let timeA = new Date(a.deadline).getTime();
+        let timeB = new Date(b.deadline).getTime();
+        if (a.deadline === "No deadline" || isNaN(timeA)) timeA = Infinity;
+        if (b.deadline === "No deadline" || isNaN(timeB)) timeB = Infinity;
+        return timeA - timeB;
+      });
+      localStorage.setItem("tasks", JSON.stringify(mergedTasks));
       localStorage.setItem("lastUpdated", new Date().toISOString());
       setLoading(false);
       console.log("Fetched emails:", response.data);
@@ -68,6 +87,9 @@ const ToDoList: React.FC<ToDoListProps> = () => {
     }, 2000);
     return () => clearInterval(timer);
   }, [loading, loadingCaptions.length]);
+
+  const storedTasks = localStorage.getItem("tasks");
+  const tasksExist = storedTasks ? JSON.parse(storedTasks).length > 0 : false;
 
   return (
     <div className={styles.container}>
@@ -91,22 +113,56 @@ const ToDoList: React.FC<ToDoListProps> = () => {
       <main className={styles.dashboardPanel}>
         <div className={styles.titleRow}>
           <div className={styles.tabs}>
-            <button className={`${styles.tab} ${styles.active}`}>All</button>
-            <button className={styles.tab}>Today</button>
-            <button className={styles.tab}>Completed</button>
-            <button className={styles.tab}>Archived</button>
-          </div>
-          <div className={styles.refreshContainer}>
             <button
-              className={styles.refreshButton}
-              onClick={fetchTasks}
-              disabled={loading}
+              className={`${styles.tab} ${
+                activeTab === "All" ? styles.active : ""
+              }`}
+              onClick={() => setActiveTab("All")}
             >
-              <RefreshIcon />
+              All
+            </button>
+            {/* <button
+              className={`${styles.tab} ${
+                activeTab === "Today" ? styles.active : ""
+              }`}
+              onClick={() => setActiveTab("Today")}
+            >
+              Today
+            </button>
+            <button
+              className={`${styles.tab} ${
+                activeTab === "Completed" ? styles.active : ""
+              }`}
+              onClick={() => setActiveTab("Completed")}
+            >
+              Completed
+            </button> */}
+            <button
+              className={`${styles.tab} ${
+                activeTab === "Archived" ? styles.active : ""
+              }`}
+              onClick={() => setActiveTab("Archived")}
+            >
+              Archived
             </button>
           </div>
+          <div className={styles.refreshContainer}>
+            {activeTab !== "Archived" && (
+              <button
+                className={styles.refreshButton}
+                onClick={fetchTasks}
+                disabled={loading}
+              >
+                <RefreshIcon />
+              </button>
+            )}
+          </div>
         </div>
-        {loading ? (
+        {activeTab === "Archived" ? (
+          <ArchiveList />
+        ) : tasksExist ? (
+          <TaskList fetchTasks={fetchTasks} loading={loading} />
+        ) : loading ? (
           <div className={styles.loadingWrapper}>
             <div className={styles.spinner}></div>
             <p className={styles.loadingText}>
@@ -114,7 +170,7 @@ const ToDoList: React.FC<ToDoListProps> = () => {
             </p>
           </div>
         ) : (
-          <TaskList fetchTasks={fetchTasks} />
+          <TaskList fetchTasks={fetchTasks} loading={loading} />
         )}
       </main>
     </div>

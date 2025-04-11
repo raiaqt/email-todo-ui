@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./TaskList.css";
-
 import InboxIcon from "@mui/icons-material/Inbox";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
+import TaskCard from "../TaskCard/TaskCard";
 
 interface Task {
   deadline: string;
@@ -13,16 +10,18 @@ interface Task {
   from: string;
   subject: string;
   summary: string;
+  checked: boolean;
+  priority: boolean;
+  isNew?: boolean;
 }
 
 interface TaskListProps {
   error?: boolean;
   fetchTasks: () => void;
+  loading?: boolean;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks }) => {
-  const [completed, setCompleted] = useState<boolean[]>([]);
-  const [priority, setPriority] = useState<boolean[]>([]);
+const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
@@ -44,39 +43,64 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks }) => {
   };
 
   useEffect(() => {
-    setCompleted(new Array(tasks.length).fill(false));
-    setPriority(
-      tasks.map((task) =>
-        Boolean(task.deadline && task.deadline !== "No deadline")
-      )
-    );
-  }, [tasks]);
+    if (!loading) {
+      const storedTasks = localStorage.getItem("tasks");
+      if (storedTasks) {
+        const parsedTasks = JSON.parse(storedTasks) as Task[];
+        const tasksWithFields = parsedTasks.map((task: Task) => ({
+          ...task,
+          checked: task.checked !== undefined ? task.checked : false,
+          priority: task.priority !== undefined ? task.priority : (!task.deadline || task.deadline === "No deadline" ? false : new Date(task.deadline).toDateString() === new Date().toDateString())
+        }));
+        setTasks(tasksWithFields);
+      }
+      const lastUpdatedTime = localStorage.getItem("lastUpdated");
+      if (lastUpdatedTime) {
+        setLastUpdated(lastUpdatedTime);
+      }
+    }
+  }, [loading]);
 
+  // NEW: Cleanup new tasks on unmount
   useEffect(() => {
-    const storedTasks = localStorage.getItem("tasks");
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
-    }
-    const lastUpdatedTime = localStorage.getItem("lastUpdated");
-    if (lastUpdatedTime) {
-      setLastUpdated(lastUpdatedTime);
-    }
+    return () => {
+      const storedTasks = localStorage.getItem("tasks");
+      if (storedTasks) {
+        const updatedTasks = JSON.parse(storedTasks).map((task: Task) => {
+          if (task.isNew) {
+            delete task.isNew;
+          }
+          return task;
+        });
+        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      }
+    };
   }, []);
 
   const toggleTask = (index: number) => {
-    setCompleted((prev) => {
-      const updated = [...prev];
-      updated[index] = !updated[index];
-      return updated;
-    });
+    const newTasks = [...tasks];
+    newTasks[index].checked = !newTasks[index].checked;
+    setTasks(newTasks);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
 
   const togglePriority = (index: number) => {
-    setPriority((prev) => {
-      const updated = [...prev];
-      updated[index] = !updated[index];
-      return updated;
-    });
+    const newTasks = [...tasks];
+    newTasks[index].priority = !newTasks[index].priority;
+    setTasks(newTasks);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+  };
+
+  // NEW: Function to archive a task
+  const handleArchiveTask = (index: number) => {
+    const taskToArchive = tasks[index];
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    const currentArchive = localStorage.getItem("archive");
+    const archiveList = currentArchive ? JSON.parse(currentArchive) : [];
+    archiveList.push(taskToArchive);
+    localStorage.setItem("archive", JSON.stringify(archiveList));
   };
 
   if (error) {
@@ -94,7 +118,7 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks }) => {
         <InboxIcon fontSize="large" color="disabled" />
         <p>You have not synced your emails yet.</p>
         <button className="sync-button" onClick={fetchTasks}>
-          Click here to sync past 12h emails
+          Click here to sync
         </button>
       </div>
     );
@@ -102,54 +126,20 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks }) => {
 
   return (
     <div className="task-list">
-      <div className="last-updated" style={{ fontSize: '0.9em', color: '#666', marginBottom: '0.5em', textAlign: 'center' }}>
-        Last updated {formatRelativeTime(lastUpdated)}
+      <div className="last-updated" style={{ fontSize: '0.8em', color: '#666', marginBottom: '0', textAlign: 'center' }}>
+        {loading ? "Creating latest tasks..." : `Last updated ${formatRelativeTime(lastUpdated)}`}
       </div>
-      {tasks.map((task, index) => {
-        const isDone = completed[index];
-        const isPriority = priority[index];
-
-        return (
-          <div
-            key={index}
-            className={`task-card ${isPriority ? "priority" : ""} ${
-              isDone ? "done" : ""
-            }`}
-          >
-            <label className="task-left">
-              <div className="task-checkbox">
-                <input
-                  type="checkbox"
-                  checked={isDone}
-                  onChange={() => toggleTask(index)}
-                />
-              </div>
-              <div className="task-content">
-                <p className={`task-title ${isDone ? "completed" : ""}`}>
-                  {task.summary}
-                </p>
-                <p className="task-meta">
-                  {task.deadline && /^\d{4}-\d{2}-\d{2}$/.test(task.deadline)
-                    ? task.deadline
-                    : "No deadline"}
-                </p>
-              </div>
-            </label>
-
-            <div className="task-actions">
-              <button className="task-btn snooze">
-                <ArchiveIcon />
-              </button>
-              <button
-                className="task-btn prioritize"
-                onClick={() => togglePriority(index)}
-              >
-                {isPriority ? <StarIcon /> : <StarBorderIcon />}
-              </button>
-            </div>
-          </div>
-        );
-      })}
+      {tasks.map((task, index) => (
+        <TaskCard
+          key={index}
+          task={task}
+          isDone={task.checked}
+          isPriority={task.priority}
+          toggleTask={() => toggleTask(index)}
+          togglePriority={() => togglePriority(index)}
+          handleArchiveTask={() => handleArchiveTask(index)}
+        />
+      ))}
     </div>
   );
 };
