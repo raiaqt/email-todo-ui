@@ -4,7 +4,7 @@ import TaskList from "./TaskList/TaskList";
 import styles from "./ToDoList.module.css";
 import { googleLogout } from "@react-oauth/google";
 import logo from "../assets/logo.png";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArchiveList from "./ArchiveList/ArchiveList";
 
