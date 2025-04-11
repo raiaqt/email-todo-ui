@@ -5,6 +5,7 @@ import styles from "./ToDoList.module.css";
 import { googleLogout } from "@react-oauth/google";
 import logo from "../assets/logo.png";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -78,7 +79,7 @@ const ToDoList: React.FC<ToDoListProps> = () => {
       setCaptionIndex((prev) => (prev + 1) % loadingCaptions.length);
     }, 2000);
     return () => clearInterval(timer);
-  }, [loading]);
+  }, [loading, loadingCaptions.length]);
 
   return (
     <div className={styles.container}>
@@ -100,12 +101,23 @@ const ToDoList: React.FC<ToDoListProps> = () => {
 
       {/* Main Dashboard */}
       <main className={styles.dashboardPanel}>
-        <div className={styles.tabs}>
-          <button className={`${styles.tab} ${styles.active}`}>All</button>
-          <button className={styles.tab}>Today</button>
-          <button className={styles.tab}>Completed</button>
+        <div className={styles.titleRow}>
+          <div className={styles.tabs}>
+            <button className={`${styles.tab} ${styles.active}`}>All</button>
+            <button className={styles.tab}>Today</button>
+            <button className={styles.tab}>Completed</button>
+            <button className={styles.tab}>Archived</button>
+          </div>
+          <div className={styles.refreshContainer}>
+            <button
+              className={styles.refreshButton}
+              onClick={fetchTasks}
+              disabled={loading}
+            >
+              <RefreshIcon />
+            </button>
+          </div>
         </div>
-
         {loading ? (
           <div className={styles.loadingWrapper}>
             <div className={styles.spinner}></div>

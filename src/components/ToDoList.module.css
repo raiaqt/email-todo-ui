@@ -106,13 +106,13 @@
 .tabs {
   display: flex;
   gap: 12px;
-  margin-bottom: 32px;
+  align-items: center;
+  overflow: auto;
 }
 
 .tab {
   border: 1px solid #d1d5db;
   background-color: #ffffff;
-  padding: 8px 16px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
@@ -130,6 +130,14 @@
   color: #ffffff;
   border-color: #171e69;
 }
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
 
 /* Spinner */
 .spinner {
@@ -168,8 +176,37 @@
   display: inline-block;
 }
 
-
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* New styles for refresh icon button */
+.refreshContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.refreshButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #171e69;
+  font-size: 24px;
+  transition: transform 0.2s ease;
+}
+
+.refreshButton:hover {
+  transform: rotate(90deg);
+}
+
+.refreshButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

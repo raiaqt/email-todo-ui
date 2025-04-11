@@ -12,7 +12,7 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     transition: all 0.2s ease;
     position: relative;
     border-left: 4px solid transparent;
@@ -79,8 +79,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
 }
 /* Task content */
 .task-content {
@@ -104,40 +102,42 @@
 .task-meta {
     font-size: 14px;
     color: #6b7280;
+    margin: 2px 0;
 }
 
 /* Snooze button */
 .task-actions {
     display: none;
-    flex-direction: column;
-    gap: 6px;
 }
 
 .task-card:hover .task-actions {
     display: flex;
 }
 
-.task-btn.snooze {
-    font-size: 12px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: none;
-    background-color: #facc15;
-    color: #1f2937;
+.task-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; /* Adjust size as needed */
+    border-radius: 50%; /* Circular buttons */
+    border: none; /* Ensure there is no border by default */
     cursor: pointer;
     transition: all 0.2s ease;
+    background-color: transparent; /* Remove background color */
+    padding: 0;
 }
 
-/* 🧠 Prioritize button */
+.task-btn:active {
+    outline: none; /* Remove outline on click */
+    border: none; /* Ensure no border is shown on click */
+}
+
 .task-btn.prioritize {
-    font-size: 12px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: none;
-    background-color: #4338CA;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    color: #4338CA; /* Example for prioritize */
+}
+
+.task-btn.snooze {
+    color: #facc15; /* Example for snooze */
 }
 
 .placeholder {

@@ -3,6 +3,9 @@ import "./TaskList.css";
 
 import InboxIcon from "@mui/icons-material/Inbox";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 interface Task {
   deadline: string;
@@ -23,7 +26,11 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, error }) => {
 
   useEffect(() => {
     setCompleted(new Array(tasks.length).fill(false));
-    setPriority(new Array(tasks.length).fill(false));
+    setPriority(
+      tasks.map((task) =>
+        Boolean(task.deadline && task.deadline !== "No deadline")
+      )
+    );
   }, [tasks]);
 
   const toggleTask = (index: number) => {
@@ -94,12 +101,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, error }) => {
             </label>
 
             <div className="task-actions">
-              <button className="task-btn snooze">Snooze</button>
+              <button className="task-btn snooze">
+                <ArchiveIcon />
+              </button>
               <button
                 className="task-btn prioritize"
                 onClick={() => togglePriority(index)}
               >
-                {isPriority ? "Deprioritize" : "Prioritize"}
+                {isPriority ? <StarIcon /> : <StarBorderIcon />}
               </button>
             </div>
           </div>
