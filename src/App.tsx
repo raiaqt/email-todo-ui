@@ -16,8 +16,9 @@ const App: React.FC = () => {
     const authorizationCode = params.get("code");
 
     if (authorizationCode) {
+      window.history.replaceState({}, document.title, window.location.pathname);
       setLoading(true);
-      exchangeCodeForTokens(authorizationCode, (user: string | null) => {
+      exchangeCodeForTokens(authorizationCode, (user: string) => {
         setUser(user);
         setLoading(false);
       });
@@ -43,7 +44,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      {loading ? <Loader /> : (user ? <ToDoList user={user} /> : <LandingPage />)}
+      {loading ? <Loader /> : user ? <ToDoList user={user} /> : <LandingPage />}
     </div>
   );
 };

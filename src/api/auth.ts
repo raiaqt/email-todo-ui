@@ -9,7 +9,7 @@ const TOKEN_URL = import.meta.env.VITE_TOKEN_URL;
 
 export const exchangeCodeForTokens = async (
   authorizationCode: string,
-  callback?: (name: string | null) => void
+  callback?: (name: string) => void
 ) => {
   try {
     // Make a POST request to Google's token endpoint
@@ -50,9 +50,6 @@ export const exchangeCodeForTokens = async (
     // alert("Login successful! Tokens stored in localStorage.");
   } catch (error) {
     console.error("Error exchanging authorization code:", error);
-    if (callback) {
-      callback(null);
-    }
     // alert("Failed to exchange authorization code.");
   }
 };
