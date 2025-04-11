@@ -9,20 +9,11 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-interface Task {
-  deadline: string;
-  detailed_tasks: string;
-  from: string;
-  subject: string;
-  summary: string;
-}
-
 interface ToDoListProps {
   user: string;
 }
 
 const ToDoList: React.FC<ToDoListProps> = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
   const [captionIndex, setCaptionIndex] = useState(0);
   const loadingCaptions = [
@@ -57,7 +48,8 @@ const ToDoList: React.FC<ToDoListProps> = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      setTasks(response.data.tasks);
+      localStorage.setItem("tasks", JSON.stringify(response.data.tasks));
+      localStorage.setItem("lastUpdated", new Date().toISOString());
       setLoading(false);
       console.log("Fetched emails:", response.data);
     } catch (error) {
@@ -65,10 +57,6 @@ const ToDoList: React.FC<ToDoListProps> = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
 
   useEffect(() => {
     if (!loading) {
@@ -126,7 +114,7 @@ const ToDoList: React.FC<ToDoListProps> = () => {
             </p>
           </div>
         ) : (
-          <TaskList tasks={tasks} />
+          <TaskList fetchTasks={fetchTasks} />
         )}
       </main>
     </div>

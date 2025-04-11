@@ -29,7 +29,7 @@ const WaitlistModal: React.FC<WaitlistModalProps> = ({
           &times;
         </span>
         <h2>Be first to try Sortify!</h2>
-        <p>Join our beta by entering your email below.</p>
+        <p>Join our waitlist by entering your email below.</p>
         <form onSubmit={onSubmit}>
           <input
             type="email"

@@ -16,13 +16,32 @@ interface Task {
 }
 
 interface TaskListProps {
-  tasks: Task[];
   error?: boolean;
+  fetchTasks: () => void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, error }) => {
+const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks }) => {
   const [completed, setCompleted] = useState<boolean[]>([]);
   const [priority, setPriority] = useState<boolean[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+
+  const formatRelativeTime = (timestamp: string | null): string => {
+    if (!timestamp) return "Unknown";
+    const updatedTime = new Date(timestamp);
+    if (isNaN(updatedTime.getTime())) {
+      return "Invalid date";
+    }
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - updatedTime.getTime()) / 1000);
+    if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`;
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) return `${diffInHours} hours ago`;
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays} days ago`;
+  };
 
   useEffect(() => {
     setCompleted(new Array(tasks.length).fill(false));
@@ -32,6 +51,17 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, error }) => {
       )
     );
   }, [tasks]);
+
+  useEffect(() => {
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks));
+    }
+    const lastUpdatedTime = localStorage.getItem("lastUpdated");
+    if (lastUpdatedTime) {
+      setLastUpdated(lastUpdatedTime);
+    }
+  }, []);
 
   const toggleTask = (index: number) => {
     setCompleted((prev) => {
@@ -62,13 +92,19 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, error }) => {
     return (
       <div className="placeholder empty">
         <InboxIcon fontSize="large" color="disabled" />
-        <p>You're all caught up! No tasks found.</p>
+        <p>You have not synced your emails yet.</p>
+        <button className="sync-button" onClick={fetchTasks}>
+          Click here to sync past 12h emails
+        </button>
       </div>
     );
   }
 
   return (
     <div className="task-list">
+      <div className="last-updated" style={{ fontSize: '0.9em', color: '#666', marginBottom: '0.5em', textAlign: 'center' }}>
+        Last updated {formatRelativeTime(lastUpdated)}
+      </div>
       {tasks.map((task, index) => {
         const isDone = completed[index];
         const isPriority = priority[index];

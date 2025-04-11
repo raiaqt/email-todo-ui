@@ -125,6 +125,7 @@
     transition: all 0.2s ease;
     background-color: transparent; /* Remove background color */
     padding: 0;
+    filter: brightness(0.9);
 }
 
 .task-btn:active {
@@ -143,7 +144,7 @@
 /* Animation on hover for icon buttons */
 .task-btn:hover {
   transform: scale(1.1);
-  filter: brightness(1.2);
+  filter: brightness(1);
 }
 
 .placeholder {
@@ -174,6 +175,20 @@
 
 .placeholder.error {
     color: #ef4444;
+}
+
+.sync-button {
+    background-color: #4F46E5; /* Example: a nice shade of blue */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sync-button:hover {
+    background-color: #3730A3; /* Darker shade on hover */
 }
 
 /* Added to always display task buttons on mobile devices */

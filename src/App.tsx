@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LandingPage from "./components/LandingPage";
 import ToDoList from "./components/ToDoList";
+import Loader from "./components/Loader";
 import "./App.css";
 import { exchangeCodeForTokens } from "./api/auth";
 import { jwtDecode } from "jwt-decode";
@@ -8,13 +9,18 @@ import { JwtPayloadWithName } from "./types";
 
 const App: React.FC = () => {
   const [user, setUser] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const authorizationCode = params.get("code");
 
     if (authorizationCode) {
-      exchangeCodeForTokens(authorizationCode, setUser);
+      setLoading(true);
+      exchangeCodeForTokens(authorizationCode, (user: string) => {
+        setUser(user);
+        setLoading(false);
+      });
     }
   }, []);
 
@@ -37,7 +43,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      {user ? <ToDoList user={user} /> : <LandingPage />}
+      {loading ? <Loader /> : (user ? <ToDoList user={user} /> : <LandingPage />)}
     </div>
   );
 };
