@@ -17,7 +17,7 @@ const App: React.FC = () => {
 
     if (authorizationCode) {
       setLoading(true);
-      exchangeCodeForTokens(authorizationCode, (user: string) => {
+      exchangeCodeForTokens(authorizationCode, (user: string | null) => {
         setUser(user);
         setLoading(false);
       });
