@@ -39,7 +39,7 @@
     align-items: flex-start;
     gap: 16px;
     flex: 1;
-    max-width: calc(100% - 100px);
+    max-width: calc(100% - 80px);
 }
 
 .task-left input[type="checkbox"] {
@@ -140,6 +140,12 @@
     color: #facc15; /* Example for snooze */
 }
 
+/* Animation on hover for icon buttons */
+.task-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
 .placeholder {
     display: flex;
     flex-direction: column;
@@ -174,5 +180,17 @@
 @media (max-width: 768px) {
   .task-actions {
     display: flex;
+  }
+
+  .task-title {
+    font-size: 14px; /* Smaller font size for task titles on mobile */
+  }
+
+  .task-meta {
+    font-size: 12px; /* Smaller font size for task metadata on mobile */
+  }
+
+  .placeholder p {
+    font-size: 14px; /* Smaller font size for placeholder text on mobile */
   }
 }
