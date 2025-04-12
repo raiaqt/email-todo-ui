@@ -131,11 +131,15 @@
 }
 
 .task-btn.prioritize {
-    color: #4338CA;
+    color: #F97316;
 }
 
 .task-btn.snooze {
     color: #facc15;
+}
+
+.task-btn.archive {
+    color: #1976d2;
 }
 
 .task-btn:hover {

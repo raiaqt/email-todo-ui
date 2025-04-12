@@ -119,7 +119,7 @@ const ToDoList: React.FC<ToDoListProps> = () => {
               }`}
               onClick={() => setActiveTab("All")}
             >
-              All
+              To Do
             </button>
             {/* <button
               className={`${styles.tab} ${

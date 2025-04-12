@@ -34,17 +34,16 @@ const TaskCard: React.FC<TaskCardProps> = ({
   hideButtons = false,
 }) => {
   return (
-    <motion.div layout
+    <motion.div
+      layout
       className={`task-card ${isPriority ? "priority" : ""} ${
         isDone ? "done" : ""
       } ${task.isNew ? "new-task" : ""}`}
     >
       <label className="task-left">
-        {!hideButtons && (
-          <div className="task-checkbox">
-            <input type="checkbox" checked={isDone} onChange={toggleTask} />
-          </div>
-        )}
+        <div className="task-checkbox">
+          <input type="checkbox" checked={isDone} onChange={toggleTask} />
+        </div>
         <div className="task-content">
           <p className={`task-title ${isDone ? "completed" : ""}`}>
             {task.summary}

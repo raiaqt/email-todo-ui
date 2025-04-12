@@ -10,6 +10,7 @@ interface Task {
   from: string;
   subject: string;
   summary: string;
+  checked: boolean;
 }
 
 interface ArchiveListProps {
@@ -50,7 +51,7 @@ const ArchiveList: React.FC<ArchiveListProps> = ({ error }) => {
         <TaskCard
           key={index}
           task={task}
-          isDone={false}
+          isDone={task.checked}
           hideButtons={true}
         />
       ))}

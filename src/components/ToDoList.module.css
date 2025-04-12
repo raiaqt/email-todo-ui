@@ -121,10 +121,6 @@
   transition: all 0.2s ease;
 }
 
-.tab:hover {
-  background-color: #f3f4f6;
-}
-
 .active {
   background-color: #171e69;
   color: #ffffff;
