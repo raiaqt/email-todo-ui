@@ -1,6 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // For decoding Google ID tokens
 import { JwtPayloadWithName } from "../types";
+import logout from "./logout";
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;
@@ -59,8 +60,12 @@ export const exchangeCodeForTokens = async (
   }
 };
 
-export const refreshAccessToken = async (refreshToken: string) => {
+export const refreshAccessToken = async (refreshToken: string | null) => {
   try {
+    if (!refreshToken) {
+      throw new Error("Missing refresh token in token response.");
+    }
+    
     // Make a POST request to refresh the access token using the refresh token
     const response = await axios.post(TOKEN_URL, {
       client_id: CLIENT_ID,
@@ -68,19 +73,23 @@ export const refreshAccessToken = async (refreshToken: string) => {
       refresh_token: refreshToken,
       grant_type: "refresh_token",
     });
-    
-    const { access_token, refresh_token: newRefreshToken } = response.data;
+
+    const { access_token, id_token, refresh_token: newRefreshToken } = response.data;
     console.log("Refresh token response data", response.data);
 
     // Update stored tokens: if new refresh token provided, update it, otherwise leave the existing one unchanged.
     localStorage.setItem("accessToken", access_token);
+    localStorage.setItem("idToken", id_token);
     if (newRefreshToken) {
       localStorage.setItem("refreshToken", newRefreshToken);
     } else {
-      console.warn("No new refresh token provided, continuing to use the existing refresh token.");
+      console.warn(
+        "No new refresh token provided, continuing to use the existing refresh token."
+      );
     }
-    return response.data;
+    return response.data.id_token;
   } catch (error) {
+    logout();
     console.error("Error refreshing access token:", error);
   }
 };

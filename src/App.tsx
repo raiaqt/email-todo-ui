@@ -3,7 +3,7 @@ import LandingPage from "./components/LandingPage";
 import ToDoList from "./components/ToDoList";
 import Loader from "./components/Loader";
 import "./App.css";
-import { exchangeCodeForTokens } from "./api/auth";
+import { exchangeCodeForTokens, refreshAccessToken } from "./api/auth";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayloadWithName } from "./types";
 
@@ -25,21 +25,35 @@ const App: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    // On app load, check for stored ID token
+  const getValidToken = async () => {
     const storedToken = localStorage.getItem("idToken");
     if (storedToken) {
       const decodedToken = jwtDecode(storedToken);
-
       const now = Math.floor(Date.now() / 1000);
-      if (decodedToken && decodedToken.exp && decodedToken.exp > now) {
-        setUser((decodedToken as JwtPayloadWithName).name); // Token is valid, set user as logged in
-      } else {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("idToken");
+      const isTokenValid =
+        decodedToken && decodedToken.exp && decodedToken.exp > now;
+      if (isTokenValid) {
+        return storedToken;
       }
     }
+
+    const refreshToken = localStorage.getItem("refreshToken");
+    const refreshedToken = await refreshAccessToken(refreshToken);
+
+    console.log(refreshedToken);
+    return refreshedToken;
+  };
+
+  const handleAuth = async () => {
+    const validToken = await getValidToken();
+    const decodedToken = jwtDecode(validToken);
+    console.log("decodedToken", decodedToken);
+    setUser((decodedToken as JwtPayloadWithName).email);
+  };
+
+  useEffect(() => {
+    handleAuth();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
