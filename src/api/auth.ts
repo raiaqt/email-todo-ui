@@ -24,6 +24,11 @@ export const exchangeCodeForTokens = async (
     const { access_token, refresh_token, expires_in, id_token } = response.data;
     console.log("response data", response.data);
 
+    if (!refresh_token) {
+      console.error("No refresh token received in token response.");
+      throw new Error("Missing refresh token in token response.");
+    }
+
     // Log the tokens (replace this with secure storage or usage)
     console.log("Access Token:", access_token);
     console.log("Refresh Token:", refresh_token);
@@ -51,5 +56,31 @@ export const exchangeCodeForTokens = async (
   } catch (error) {
     console.error("Error exchanging authorization code:", error);
     // alert("Failed to exchange authorization code.");
+  }
+};
+
+export const refreshAccessToken = async (refreshToken: string) => {
+  try {
+    // Make a POST request to refresh the access token using the refresh token
+    const response = await axios.post(TOKEN_URL, {
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
+    });
+    
+    const { access_token, refresh_token: newRefreshToken } = response.data;
+    console.log("Refresh token response data", response.data);
+
+    // Update stored tokens: if new refresh token provided, update it, otherwise leave the existing one unchanged.
+    localStorage.setItem("accessToken", access_token);
+    if (newRefreshToken) {
+      localStorage.setItem("refreshToken", newRefreshToken);
+    } else {
+      console.warn("No new refresh token provided, continuing to use the existing refresh token.");
+    }
+    return response.data;
+  } catch (error) {
+    console.error("Error refreshing access token:", error);
   }
 };

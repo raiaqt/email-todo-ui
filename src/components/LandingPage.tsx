@@ -32,7 +32,7 @@ const LandingPage: React.FC = () => {
     const redirectUri = REDIRECT_URI;
     const scope =
       "openid profile email https://www.googleapis.com/auth/gmail.readonly";
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline`;
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
     window.location.href = authUrl;
   };
 

@@ -22,7 +22,7 @@ interface TaskListProps {
 }
 
 const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[] | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
   const formatRelativeTime = (timestamp: string | null): string => {
@@ -45,8 +45,10 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
   useEffect(() => {
     if (!loading) {
       const storedTasks = localStorage.getItem("tasks");
+      console.log("storedTasks", storedTasks);
       if (storedTasks) {
         const parsedTasks = JSON.parse(storedTasks) as Task[];
+        console.log("parsedTasks", parsedTasks);
         const tasksWithFields = parsedTasks.map((task: Task) => ({
           ...task,
           checked: task.checked !== undefined ? task.checked : false,
@@ -77,15 +79,17 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
     };
   }, []);
 
+  const safeTasks = tasks as Task[];
+
   const toggleTask = (index: number) => {
-    const newTasks = [...tasks];
+    const newTasks = [...safeTasks];
     newTasks[index].checked = !newTasks[index].checked;
     setTasks(newTasks);
     localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
 
   const togglePriority = (index: number) => {
-    const newTasks = [...tasks];
+    const newTasks = [...safeTasks];
     newTasks[index].priority = !newTasks[index].priority;
     setTasks(newTasks);
     localStorage.setItem("tasks", JSON.stringify(newTasks));
@@ -93,8 +97,8 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
 
   // NEW: Function to archive a task
   const handleArchiveTask = (index: number) => {
-    const taskToArchive = tasks[index];
-    const updatedTasks = tasks.filter((_, i) => i !== index);
+    const taskToArchive = safeTasks[index];
+    const updatedTasks = safeTasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     const currentArchive = localStorage.getItem("archive");
@@ -102,6 +106,15 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
     archiveList.push(taskToArchive);
     localStorage.setItem("archive", JSON.stringify(archiveList));
   };
+
+  useEffect(() => {
+    if (tasks && tasks.length > 0) {
+      const firstNewTaskElement = document.querySelector('.task-card.new-task');
+      if (firstNewTaskElement) {
+        firstNewTaskElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [tasks]);
 
   if (error) {
     return (
@@ -112,7 +125,7 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
     );
   }
 
-  if (tasks.length === 0) {
+  if (tasks === null) {
     return (
       <div className="placeholder empty">
         <InboxIcon fontSize="large" color="disabled" />
@@ -124,12 +137,24 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
     );
   }
 
+  if (tasks.length === 0) {
+    return (
+      <div className="placeholder empty">
+        <InboxIcon fontSize="large" color="disabled" />
+        <p>No tasks on your list. Enjoy your day!</p>
+        <button className="sync-button" onClick={fetchTasks}>
+          Or click here to load more
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="task-list">
       <div className="last-updated" style={{ fontSize: '0.8em', color: '#666', marginBottom: '0', textAlign: 'center' }}>
         {loading ? "Creating latest tasks..." : `Last updated ${formatRelativeTime(lastUpdated)}`}
       </div>
-      {tasks.map((task, index) => (
+      {safeTasks.map((task, index) => (
         <TaskCard
           key={index}
           task={task}

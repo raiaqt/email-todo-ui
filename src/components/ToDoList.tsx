@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import TaskList from "./TaskList/TaskList";
 import styles from "./ToDoList.module.css";
-import { googleLogout } from "@react-oauth/google";
 import logo from "../assets/logo.png";
 // import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import ArchiveList from "./ArchiveList/ArchiveList";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { fetchTasks } from "../api/task";
+import logout from "../api/logout";
 
 interface ToDoListProps {
   user: string;
@@ -25,56 +23,9 @@ const ToDoList: React.FC<ToDoListProps> = () => {
     "Herding cats and emails simultaneously!",
   ];
 
-  const handleLogout = () => {
-    googleLogout();
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("idToken");
-    window.location.reload();
-  };
-
-  const fetchTasks = async () => {
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-
-      if (!accessToken) {
-        console.error("Access token is missing. Please log in again.");
-        return;
-      }
-
-      setLoading(true);
-
-      const lastUpdated = localStorage.getItem("lastUpdated");
-
-      const response = await axios.post(
-        `${API_URL}/fetch-emails`,
-        { access_token: accessToken, last_updated: lastUpdated },
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-      const newTasks = response.data.tasks.map((task: { deadline: string; detailed_tasks: string; from: string; subject: string; summary: string }) => ({ ...task, isNew: true }));
-      const storedTasks = localStorage.getItem("tasks");
-      let mergedTasks;
-      if (storedTasks) {
-        mergedTasks = JSON.parse(storedTasks).concat(newTasks);
-      } else {
-        mergedTasks = newTasks;
-      }
-      mergedTasks.sort((a: { deadline: string }, b: { deadline: string }) => {
-        let timeA = new Date(a.deadline).getTime();
-        let timeB = new Date(b.deadline).getTime();
-        if (a.deadline === "No deadline" || isNaN(timeA)) timeA = Infinity;
-        if (b.deadline === "No deadline" || isNaN(timeB)) timeB = Infinity;
-        return timeA - timeB;
-      });
-      localStorage.setItem("tasks", JSON.stringify(mergedTasks));
-      localStorage.setItem("lastUpdated", new Date().toISOString());
-      setLoading(false);
-      console.log("Fetched emails:", response.data);
-    } catch (error) {
-      console.error("Error while fetching emails:", error);
-      setLoading(false);
-    }
+  const handlefetchTasks = async () => {
+    setLoading(true);
+    await fetchTasks(setLoading);
   };
 
   useEffect(() => {
@@ -100,7 +51,7 @@ const ToDoList: React.FC<ToDoListProps> = () => {
           <span className={styles.logoText}>Sortify</span>
         </div>
         <div className={styles.appRight}>
-          <button className={styles.upgradeButton} onClick={handleLogout}>
+          <button className={styles.upgradeButton} onClick={logout}>
             Logout
           </button>
           {/* <div className={styles.avatar}>
@@ -150,7 +101,7 @@ const ToDoList: React.FC<ToDoListProps> = () => {
             {activeTab !== "Archived" && (
               <button
                 className={styles.refreshButton}
-                onClick={fetchTasks}
+                onClick={handlefetchTasks}
                 disabled={loading}
               >
                 <RefreshIcon />
@@ -161,7 +112,8 @@ const ToDoList: React.FC<ToDoListProps> = () => {
         {activeTab === "Archived" ? (
           <ArchiveList />
         ) : tasksExist ? (
-          <TaskList fetchTasks={fetchTasks} loading={loading} />
+          // <></>
+          <TaskList fetchTasks={handlefetchTasks} loading={loading} />
         ) : loading ? (
           <div className={styles.loadingWrapper}>
             <div className={styles.spinner}></div>
@@ -170,7 +122,8 @@ const ToDoList: React.FC<ToDoListProps> = () => {
             </p>
           </div>
         ) : (
-          <TaskList fetchTasks={fetchTasks} loading={loading} />
+          // <></>
+          <TaskList fetchTasks={handlefetchTasks} loading={loading} />
         )}
       </main>
     </div>
