@@ -151,3 +151,18 @@ input.invalid {
 .modal-content .form-group.half {
     flex: 1 1 50%;
 }
+
+/* Spinner style for loading state */
+.spinner {
+    margin-right: 8px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #4338CA;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

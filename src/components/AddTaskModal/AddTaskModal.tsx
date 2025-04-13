@@ -15,16 +15,24 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
   const [task, setTask] = React.useState("");
   const [deadline, setDeadline] = React.useState("");
   const [noDeadline, setNoDeadline] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const today = new Date().toISOString().split("T")[0];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const data = await addTask(sendTo, task, deadline ? deadline : undefined);
       console.log("Email sent successfully", data);
+      setSendTo("");
+      setTask("");
+      setDeadline("");
+      setNoDeadline(false);
       onClose();
     } catch (error) {
       console.error("Error sending email", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,7 +97,9 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
               {task.length} / 160
             </span>
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Submitting..." : "Submit"}
+          </button>
         </form>
       </div>
     </div>
