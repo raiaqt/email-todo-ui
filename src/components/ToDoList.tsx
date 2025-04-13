@@ -99,25 +99,27 @@ const ToDoList: React.FC<ToDoListProps> = () => {
               Archived
             </button>
           </div>
-          <div className={styles.refreshContainer}>
-            <button
-              className={styles.addButton}
-              onClick={() => setShowAddTask(true)}
-              disabled={loading}
-            >
-              <AddIcon />
-            </button>
-          </div>
-          <div className={styles.refreshContainer}>
-            {activeTab !== "Archived" && (
+          <div className={styles.taskButtons}>
+            <div className={styles.refreshContainer}>
               <button
-                className={styles.refreshButton}
-                onClick={handlefetchTasks}
+                className={styles.addButton}
+                onClick={() => setShowAddTask(true)}
                 disabled={loading}
               >
-                <RefreshIcon />
+                <AddIcon />
               </button>
-            )}
+            </div>
+            <div className={styles.refreshContainer}>
+              {activeTab !== "Archived" && (
+                <button
+                  className={styles.refreshButton}
+                  onClick={handlefetchTasks}
+                  disabled={loading}
+                >
+                  <RefreshIcon />
+                </button>
+              )}
+            </div>
           </div>
         </div>
         {activeTab === "Archived" ? (

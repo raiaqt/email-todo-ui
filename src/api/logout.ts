@@ -5,6 +5,8 @@ const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("idToken");
+  localStorage.removeItem("name");
+  localStorage.removeItem("email");
   window.location.reload();
 };
 

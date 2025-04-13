@@ -35,10 +35,6 @@ export const exchangeCodeForTokens = async (
     console.log("Refresh Token:", refresh_token);
     console.log("Expires In:", expires_in);
 
-    // Optional: Store tokens securely (e.g., HTTP-only cookies or secure storage)
-    localStorage.setItem("accessToken", access_token);
-    localStorage.setItem("refreshToken", refresh_token);
-    localStorage.setItem("idToken", id_token);
 
     const decodedToken = jwtDecode(id_token);
 
@@ -51,6 +47,14 @@ export const exchangeCodeForTokens = async (
     ) {
       callback((decodedToken as JwtPayloadWithName).name); // Token is valid, set user as logged in
     }
+
+    // Optional: Store tokens securely (e.g., HTTP-only cookies or secure storage)
+    localStorage.setItem("accessToken", access_token);
+    localStorage.setItem("refreshToken", refresh_token);
+    localStorage.setItem("idToken", id_token);
+    localStorage.setItem("name", (decodedToken as JwtPayloadWithName).name);
+    localStorage.setItem("email", (decodedToken as JwtPayloadWithName).email);
+    
     return id_token;
 
     // alert("Login successful! Tokens stored in localStorage.");

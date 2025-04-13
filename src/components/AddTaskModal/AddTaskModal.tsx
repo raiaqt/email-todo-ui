@@ -15,6 +15,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
   const [task, setTask] = React.useState("");
   const [deadline, setDeadline] = React.useState("");
   const [noDeadline, setNoDeadline] = React.useState(false);
+  const today = new Date().toISOString().split("T")[0];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,6 +56,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
                 id="deadline"
                 type="date"
                 placeholder="Deadline"
+                min={today}
                 value={deadline}
                 onChange={(e) => setDeadline(e.target.value)}
                 disabled={noDeadline}
