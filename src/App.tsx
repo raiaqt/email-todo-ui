@@ -28,12 +28,17 @@ const App: React.FC = () => {
   const getValidToken = async () => {
     const storedToken = localStorage.getItem("idToken");
     if (storedToken) {
-      const decodedToken = jwtDecode(storedToken);
-      const now = Math.floor(Date.now() / 1000);
-      const isTokenValid =
-        decodedToken && decodedToken.exp && decodedToken.exp > now;
-      if (isTokenValid) {
-        return storedToken;
+      try {
+        const decodedToken = jwtDecode(storedToken);
+        const now = Math.floor(Date.now() / 1000);
+        const isTokenValid =
+          decodedToken && decodedToken.exp && decodedToken.exp > now;
+        if (isTokenValid) {
+          return storedToken;
+        }
+      } catch (error) {
+        console.error("Failed to decode token, refreshing token.", error);
+        localStorage.removeItem("idToken");
       }
     }
 
@@ -45,15 +50,18 @@ const App: React.FC = () => {
   };
 
   const handleAuth = async () => {
+    setLoading(true);
     const validToken = await getValidToken();
     const decodedToken = jwtDecode(validToken);
     console.log("decodedToken", decodedToken);
+
     setUser((decodedToken as JwtPayloadWithName).email);
+    setLoading(false);
   };
 
   useEffect(() => {
     handleAuth();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
