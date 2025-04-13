@@ -9,7 +9,7 @@ import { JwtPayloadWithName } from "./types";
 
 const App: React.FC = () => {
   const [user, setUser] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
