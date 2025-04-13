@@ -3,11 +3,12 @@ import TaskList from "./TaskList/TaskList";
 import styles from "./ToDoList.module.css";
 import logo from "../assets/logo.png";
 // import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import AddIcon from "@mui/icons-material/Add";
 import ArchiveList from "./ArchiveList/ArchiveList";
 import { fetchTasks } from "../api/task";
 import logout from "../api/logout";
-
+import AddTaskModal from "./AddTaskModal/AddTaskModal";
+import RefreshIcon from "@mui/icons-material/Refresh";
 interface ToDoListProps {
   user: string;
 }
@@ -16,6 +17,7 @@ const ToDoList: React.FC<ToDoListProps> = () => {
   const [loading, setLoading] = useState(false);
   const [captionIndex, setCaptionIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("All");
+  const [showAddTask, setShowAddTask] = useState(false);
   const loadingCaptions = [
     "Hold tight, email ninjas at work!",
     "Counting emails like they're treasure...",
@@ -98,6 +100,15 @@ const ToDoList: React.FC<ToDoListProps> = () => {
             </button>
           </div>
           <div className={styles.refreshContainer}>
+            <button
+              className={styles.addButton}
+              onClick={() => setShowAddTask(true)}
+              disabled={loading}
+            >
+              <AddIcon />
+            </button>
+          </div>
+          <div className={styles.refreshContainer}>
             {activeTab !== "Archived" && (
               <button
                 className={styles.refreshButton}
@@ -126,6 +137,7 @@ const ToDoList: React.FC<ToDoListProps> = () => {
           <TaskList fetchTasks={handlefetchTasks} loading={loading} />
         )}
       </main>
+      <AddTaskModal show={showAddTask} onClose={() => setShowAddTask(false)} />
     </div>
   );
 };

@@ -36,24 +36,31 @@ const App: React.FC = () => {
         if (isTokenValid) {
           return storedToken;
         }
+
+        const refreshToken = localStorage.getItem("refreshToken");
+        const refreshedToken = await refreshAccessToken(refreshToken);
+    
+        return refreshedToken;
       } catch (error) {
         console.error("Failed to decode token, refreshing token.", error);
         localStorage.removeItem("idToken");
       }
     }
-
-    const refreshToken = localStorage.getItem("refreshToken");
-    const refreshedToken = await refreshAccessToken(refreshToken);
-
-    console.log(refreshedToken);
-    return refreshedToken;
+    return null;
   };
 
   const handleAuth = async () => {
     setLoading(true);
     const validToken = await getValidToken();
+    if (!validToken) {
+      setLoading(false);
+      return;
+    }
+
     const decodedToken = jwtDecode(validToken);
     console.log("decodedToken", decodedToken);
+    localStorage.setItem("name", (decodedToken as JwtPayloadWithName).name);
+    localStorage.setItem("email", (decodedToken as JwtPayloadWithName).email);
 
     setUser((decodedToken as JwtPayloadWithName).email);
     setLoading(false);

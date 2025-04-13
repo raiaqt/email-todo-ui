@@ -3,6 +3,7 @@ import "./TaskList.css";
 import InboxIcon from "@mui/icons-material/Inbox";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import TaskCard from "../TaskCard/TaskCard";
+import LastUpdated from "../LastUpdated/LastUpdated";
 
 interface Task {
   deadline: string;
@@ -24,23 +25,6 @@ interface TaskListProps {
 const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
   const [tasks, setTasks] = useState<Task[] | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
-
-  const formatRelativeTime = (timestamp: string | null): string => {
-    if (!timestamp) return "Unknown";
-    const updatedTime = new Date(timestamp);
-    if (isNaN(updatedTime.getTime())) {
-      return "Invalid date";
-    }
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - updatedTime.getTime()) / 1000);
-    if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
-    const diffInMinutes = Math.floor(diffInSeconds / 60);
-    if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`;
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) return `${diffInHours} hours ago`;
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays} days ago`;
-  };
 
   useEffect(() => {
     if (!loading) {
@@ -151,9 +135,7 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
 
   return (
     <div className="task-list">
-      <div className="last-updated" style={{ fontSize: '0.8em', color: '#666', marginBottom: '0', textAlign: 'center' }}>
-        {loading ? "Creating latest tasks..." : `Last updated ${formatRelativeTime(lastUpdated)}`}
-      </div>
+      <LastUpdated loading={loading} lastUpdated={lastUpdated} />
       {safeTasks.map((task, index) => (
         <TaskCard
           key={index}
