@@ -63,9 +63,9 @@ const LandingPage: React.FC = () => {
     }
   };
 
-  const handleWaitlistClick = () => {
-    setShowWaitlistModal(true);
-  };
+  // const handleWaitlistClick = () => {
+  //   setShowWaitlistModal(true);
+  // };
 
   return (
     <div className="landing-container">
@@ -91,8 +91,16 @@ const LandingPage: React.FC = () => {
                   }}
                 />
               </button>
-              <button className="btn ghost" onClick={handleWaitlistClick}>
+              {/* <button className="btn ghost" onClick={handleWaitlistClick}>
                 Join the Waitlist
+              </button> */}
+              <button
+                className="btn ghost"
+                onClick={() =>
+                  (window.location.href = "https://demo.sortify.coderai.app")
+                }
+              >
+                Try the demo
               </button>
             </div>
           </div>
