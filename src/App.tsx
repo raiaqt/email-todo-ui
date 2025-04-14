@@ -18,7 +18,7 @@ const App: React.FC = () => {
     if (authorizationCode) {
       window.history.replaceState({}, document.title, window.location.pathname);
       setLoading(true);
-      exchangeCodeForTokens(authorizationCode, (user: string) => {
+      exchangeCodeForTokens(authorizationCode, () => {
         setLoading(false);
       });
     }
