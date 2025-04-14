@@ -11,10 +11,11 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 60px 20px;
-    margin-top: 40px;
+    padding: 20px 20px;
+    margin-top: 0;
     animation: fadeIn 0.3s ease-in-out;
     color: #6b7280;
+    min-height: calc(100vh - 320px);
 }
 
 .placeholder svg {

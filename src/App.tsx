@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import LandingPage from "./components/LandingPage";
 import ToDoList from "./components/ToDoList";
 import Loader from "./components/Loader";
-import "./App.css";
 import { exchangeCodeForTokens, refreshAccessToken } from "./api/auth";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayloadWithName } from "./types";
+import "./App.css";
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -19,7 +18,6 @@ const App: React.FC = () => {
       window.history.replaceState({}, document.title, window.location.pathname);
       setLoading(true);
       exchangeCodeForTokens(authorizationCode, (user: string) => {
-        setUser(user);
         setLoading(false);
       });
     }
@@ -39,7 +37,7 @@ const App: React.FC = () => {
 
         const refreshToken = localStorage.getItem("refreshToken");
         const refreshedToken = await refreshAccessToken(refreshToken);
-    
+
         return refreshedToken;
       } catch (error) {
         console.error("Failed to decode token, refreshing token.", error);
@@ -59,10 +57,15 @@ const App: React.FC = () => {
 
     const decodedToken = jwtDecode(validToken);
     console.log("decodedToken", decodedToken);
-    localStorage.setItem("name", (decodedToken as JwtPayloadWithName).name);
-    localStorage.setItem("email", (decodedToken as JwtPayloadWithName).email);
+    localStorage.setItem(
+      "gmailName",
+      (decodedToken as JwtPayloadWithName).name
+    );
+    localStorage.setItem(
+      "gmailEmail",
+      (decodedToken as JwtPayloadWithName).email
+    );
 
-    setUser((decodedToken as JwtPayloadWithName).email);
     setLoading(false);
   };
 
@@ -71,9 +74,11 @@ const App: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const name = localStorage.getItem("name");
+
   return (
     <div className="app-container">
-      {loading ? <Loader /> : user ? <ToDoList user={user} /> : <LandingPage />}
+      {loading ? <Loader /> : name ? <ToDoList /> : <LandingPage />}
     </div>
   );
 };

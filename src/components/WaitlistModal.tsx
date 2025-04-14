@@ -8,6 +8,8 @@ interface WaitlistModalProps {
   email: string;
   onEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isSubmitting: boolean;
+  name: string;
+  onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const WaitlistModal: React.FC<WaitlistModalProps> = ({
@@ -17,6 +19,8 @@ const WaitlistModal: React.FC<WaitlistModalProps> = ({
   email,
   onEmailChange,
   isSubmitting,
+  name,
+  onNameChange,
 }) => {
   if (!show) return null;
 
@@ -29,20 +33,32 @@ const WaitlistModal: React.FC<WaitlistModalProps> = ({
           &times;
         </span>
         <h2>Be first to try Sortify!</h2>
-        <p>Join our waitlist by entering your email below.</p>
         <form onSubmit={onSubmit}>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className={isValidEmail ? "" : "invalid"}
-            value={email}
-            onChange={onEmailChange}
-            required
-          />
-          {!isValidEmail && (
-            <span className="error-text">Please enter a valid email.</span>
-          )}
+          <div className="waitlist-form">
+            <label htmlFor="name">What's your nickname?</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+              onChange={onNameChange}
+              required
+            />
+            <label htmlFor="email">How can we reach you?</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email Address (optional)"
+              className={isValidEmail ? "" : "invalid"}
+              value={email}
+              onChange={onEmailChange}
+              required
+            />
+            {!isValidEmail && (
+              <span className="error-text">Please enter a valid email.</span>
+            )}
+          </div>
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Submitting..." : "Submit"}
           </button>

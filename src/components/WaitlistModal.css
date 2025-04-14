@@ -46,16 +46,39 @@
     margin-bottom: 8px;
 }
 
-.modal-content p {
+/* .modal-content p {
     color: #4b5563;
     font-size: 15px;
     margin-bottom: 24px;
+} */
+
+.modal-content .waitlist-form {
+    display: flex;
+    flex-direction: column;
+    margin: 24px 0 12px 0;
+    gap: 12px;
 }
 
 .modal-content form {
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.modal-content label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+    text-align: left;
+}
+
+.modal-content input[type="text"] {
+    padding: 12px 16px;
+    font-size: 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
 .modal-content input[type="email"] {
