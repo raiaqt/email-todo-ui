@@ -9,6 +9,7 @@ import "./App.css";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -74,11 +75,14 @@ const App: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const name = localStorage.getItem("name");
+  useEffect(() => {
+    const name = localStorage.getItem("name");
+    setName(name);
+  }, []);
 
   return (
     <div className="app-container">
-      {loading ? <Loader /> : name ? <ToDoList /> : <LandingPage />}
+      {loading ? <Loader /> : name ? <ToDoList gmailLoading={loading} /> : <LandingPage />}
     </div>
   );
 };

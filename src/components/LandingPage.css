@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-
 /* Global Container */
 .landing-container {
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -15,12 +14,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 60px 80px;
-  background: #FAF9F4; /* Very light beige */
+  background: #FAF9F4;
 }
 
 .hero-content {
   max-width: 600px;
-  position: relative; /* Ensures logo can be positioned nicely */
+  position: relative;
 }
 
 .sortify-logo {
@@ -90,7 +89,7 @@
 
 .btn svg {
   vertical-align: middle;
-  margin-right: 8px; /* Space between icon and text */
+  margin-right: 8px;
 }
 
 .hero-illustration img {
@@ -102,7 +101,7 @@
 .how-it-works {
   padding: 80px;
   text-align: center;
-  background: linear-gradient(to right, #f9f9f9, #fff); /* Subtle background gradient */
+  background: linear-gradient(to right, #f9f9f9, #fff);
 }
 
 .how-it-works h2 {
@@ -121,39 +120,26 @@
   flex: 1;
   max-width: 250px;
   margin: 0 auto;
-  transition: transform 0.3s ease-in-out; /* Smooth transition for hover effect */
+  transition: transform 0.3s ease-in-out;
 }
 
 .step:hover {
-  transform: translateY(-10px); /* Slight raise effect on hover */
+  transform: translateY(-10px);
 }
 
 .step-icon {
-  color: #F97316 !important; /* Adjust the icon color as needed */
+  color: #F97316 !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px; /* Adjust font size as needed */
+  font-size: 60px;
   margin: 0 auto 20px;
 }
 
 .step h3 {
   font-size: 20px;
   color: #333;
-  font-weight: bold; /* Making header bold */
-}
-
-/* Adding icons or images */
-.step:nth-child(1) .step-icon::before {
-  content: url('path_to_connect_icon.png'); /* Replace with actual path */
-}
-
-.step:nth-child(2) .step-icon::before {
-  content: url('path_to_scan_icon.png'); /* Replace with actual path */
-}
-
-.step:nth-child(3) .step-icon::before {
-  content: url('path_to_todo_icon.png'); /* Replace with actual path */
+  font-weight: bold;
 }
 
 /* Benefits Section */
@@ -206,9 +192,9 @@
 /* Testimonials Section */
 .testimonials {
   padding: 80px;
-  background: #FFFFFF; /* Light background for contrast */
+  background: #FFFFFF;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .testimonials h2 {
@@ -223,8 +209,8 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background: #f9f9f9; /* Subtle background for each testimonial */
-  border-radius: 10px; /* Rounded corners for the container */
+  background: #f9f9f9;
+  border-radius: 10px;
 }
 
 .testimonial {
@@ -233,26 +219,7 @@
   color: #555;
   position: relative;
   padding: 20px;
-  border-left: 5px solid #F97316; /* Adds a brand-colored bar to the left */
-}
-
-.testimonial p {
-  quotes: "“" "”" "‘" "’";
-  padding: 0 15px;
-  display: inline;
-  line-height: 1.6;
-  before {
-    content: open-quote;
-    font-size: 28px;
-    vertical-align: -0.4em;
-    color: #F97316;
-  }
-  after {
-    content: close-quote;
-    font-size: 28px;
-    vertical-align: -0.4em;
-    color: #F97316;
-  }
+  border-left: 5px solid #F97316;
 }
 
 .testimonial span {
@@ -260,41 +227,6 @@
   margin-top: 10px;
   font-weight: bold;
   color: #171e69;
-}
-
-/* Pricing Section */
-.pricing {
-  padding: 80px;
-  text-align: center;
-  background: #F3F4F6;
-}
-
-.pricing h2 {
-  font-size: 36px;
-  margin-bottom: 40px;
-}
-
-.pricing-cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-}
-
-.pricing-card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  flex: 1;
-  max-width: 250px;
-}
-
-.pricing-card h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #4338CA;
 }
 
 /* Footer */
@@ -334,20 +266,28 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* Media Queries for Mobile Responsiveness */
+.hero-note {
+  font-size: 14px !important;
+  color: #666;
+  margin-top: 10px;
+}
+
+
+
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
-    padding: 40px 30px; /* Reduced padding */
+    padding: 40px 30px;
   }
 
-  .hero-content, .hero-illustration {
+  .hero-content,
+  .hero-illustration {
     max-width: 100%;
     width: 100%;
   }
 
   .hero h1 {
-    font-size: 32px; /* Smaller font size for smaller screens */
+    font-size: 32px;
   }
 
   .hero h2 {
@@ -364,7 +304,7 @@ body {
   }
 
   .btn {
-    padding: 12px 24px; /* Larger tap targets */
+    padding: 12px 24px;
   }
 
   .steps {
@@ -372,38 +312,46 @@ body {
   }
 
   .step {
-    max-width: 100%; /* Full width on small screens */
-    margin-bottom: 20px; /* Add space between steps */
+    max-width: 100%;
+    margin-bottom: 20px;
   }
 
-  .benefits-content, .testimonial-list {
+  .benefits-content,
+  .testimonial-list {
     flex-direction: column;
   }
 
-  .dashboard-image img, .hero-illustration img {
-    max-width: 100%; /* Ensure images are not wider than the screen */
+  .dashboard-image img,
+  .hero-illustration img {
+    max-width: 100%;
   }
 
-  .benefits, .testimonials {
-    padding: 40px 30px; /* Reduced padding for smaller screens */
+  .benefits,
+  .testimonials {
+    padding: 40px 30px;
   }
 
-  /* Adjusting header sizes */
-  .hero h1, .how-it-works h2, .benefits h2, .testimonials h2, .pricing h2 {
-    font-size: 28px; /* Smaller font size for headers on smaller screens */
+  .hero h1,
+  .how-it-works h2,
+  .benefits h2,
+  .testimonials h2,
+  .pricing h2 {
+    font-size: 28px;
   }
 
-  /* Adjusting text sizes */
-  .hero h2, .step h3, .benefit-item span, .testimonial, .pricing-card h3 {
-    font-size: 18px; /* Smaller font size for subheaders and texts */
+  .hero h2,
+  .step h3,
+  .benefit-item span,
+  .testimonial,
+  .pricing-card h3 {
+    font-size: 18px;
   }
 
-  .hero p, .testimonial p {
-    font-size: 14px; /* Smaller font size for paragraph texts */
+  .hero p,
+  .testimonial p {
+    font-size: 14px;
   }
 }
-
-/* Additional responsive adjustments can be added as needed */
 
 /* Modal Styles */
 .modal {
@@ -462,4 +410,81 @@ body {
 
 .modal-content button:hover {
   background-color: #0f0f5e;
+}
+
+
+/* === New Sections === */
+.future-ready,
+.built-for-focus {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.built-for-focus h2,
+.future-ready h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #171e69;
+}
+
+.centered-subtext {
+  font-size: 18px;
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto 40px auto;
+  line-height: 1.7;
+}
+
+/* Horizontal layout for new benefit sections */
+.benefits-list.horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  max-width: 960px;
+  margin: 40px auto 0 auto;
+  padding: 0 20px;
+}
+
+.benefits-list.horizontal .benefit-item {
+  flex: 0 1 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 18px;
+  gap: 12px;
+}
+
+.benefits-list.horizontal .benefit-item svg {
+  font-size: 40px;
+  color: #4338CA;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .benefits-list.horizontal {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .built-for-focus,
+  .future-ready {
+    padding: 40px 30px;
+  }
+
+  .centered-subtext {
+    font-size: 16px;
+  }
+
+  .benefits-list.horizontal .benefit-item {
+    max-width: 100%;
+  }
+
+
+  .hero-note {
+    font-size: 12px !important;
+  }
+
 }

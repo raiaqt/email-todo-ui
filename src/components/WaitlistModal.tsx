@@ -53,7 +53,6 @@ const WaitlistModal: React.FC<WaitlistModalProps> = ({
               className={isValidEmail ? "" : "invalid"}
               value={email}
               onChange={onEmailChange}
-              required
             />
             {!isValidEmail && (
               <span className="error-text">Please enter a valid email.</span>

@@ -38,7 +38,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
       layout
       className={`task-card ${isPriority ? "priority" : ""} ${
         isDone ? "done" : ""
-      } ${task.isNew ? "new-task" : ""}`}
+      } ${task.isNew && !hideButtons ? "new-task" : ""}`}
     >
       <label className="task-left">
         <div className="task-checkbox">

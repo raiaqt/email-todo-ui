@@ -130,6 +130,8 @@
   display: flex;
   width: 100%;
   padding-bottom: 0;
+  height: calc(100vh - 66px);
+  overflow-y: auto;
 }
 
 .todoContainer {
@@ -150,6 +152,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -242,9 +245,5 @@
     color: #171e69;
     font-weight: 600;
     background-color: #dbeafe;
-  }
-
-  .dashboardBody {
-    padding-bottom: 56px; /* space for nav */
   }
 }

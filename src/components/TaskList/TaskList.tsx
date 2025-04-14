@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./TaskList.css";
 import InboxIcon from "@mui/icons-material/Inbox";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import EmailIcon from "@mui/icons-material/Email";
 import TaskCard from "../TaskCard/TaskCard";
 import LastUpdated from "../LastUpdated/LastUpdated";
+import connectGmail from "../../api/connectGmail";
 
 interface Task {
   deadline: string;
@@ -20,9 +22,17 @@ interface TaskListProps {
   error?: boolean;
   fetchTasks: () => void;
   loading?: boolean;
+  isGmailConnected: boolean;
+  setShowAddTask: (show: boolean) => void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
+const TaskList: React.FC<TaskListProps> = ({
+  error,
+  fetchTasks,
+  loading,
+  isGmailConnected,
+  setShowAddTask,
+}) => {
   const [tasks, setTasks] = useState<Task[] | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
@@ -36,7 +46,13 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
         const tasksWithFields = parsedTasks.map((task: Task) => ({
           ...task,
           checked: task.checked !== undefined ? task.checked : false,
-          priority: task.priority !== undefined ? task.priority : (!task.deadline || task.deadline === "No deadline" ? false : new Date(task.deadline).toDateString() === new Date().toDateString())
+          priority:
+            task.priority !== undefined
+              ? task.priority
+              : !task.deadline || task.deadline === "No deadline"
+              ? false
+              : new Date(task.deadline).toDateString() ===
+                new Date().toDateString(),
         }));
         setTasks(tasksWithFields);
       }
@@ -93,9 +109,12 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
 
   useEffect(() => {
     if (tasks && tasks.length > 0) {
-      const firstNewTaskElement = document.querySelector('.task-card.new-task');
+      const firstNewTaskElement = document.querySelector(".task-card.new-task");
       if (firstNewTaskElement) {
-        firstNewTaskElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        firstNewTaskElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }
     }
   }, [tasks]);
@@ -105,6 +124,33 @@ const TaskList: React.FC<TaskListProps> = ({ error, fetchTasks, loading }) => {
       <div className="placeholder error">
         <ErrorOutlineIcon fontSize="large" color="error" />
         <p>Oops! Something went wrong while fetching your tasks.</p>
+      </div>
+    );
+  }
+
+  if (tasks === null && !isGmailConnected) {
+    return (
+      <div className="placeholder empty">
+        <InboxIcon fontSize="large" color="disabled" />
+        <p>You have not synced your emails yet.</p>
+        <button
+          className="sync-button"
+          onClick={connectGmail}
+          style={{
+            backgroundColor: "#EA4335",
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <EmailIcon style={{ marginRight: 8, height: 20, width: 20 }} />
+          Connect with Gmail
+        </button>
+        <p>or</p>
+        <button className="sync-button" onClick={() => setShowAddTask(true)}>
+          Add task via Sortify
+        </button>
       </div>
     );
   }

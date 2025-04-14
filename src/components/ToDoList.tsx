@@ -13,13 +13,26 @@ import { fetchTasks } from "../api/task";
 import logo from "../assets/logo.png";
 import styles from "./ToDoList.module.css";
 
-const ToDoList: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+interface ToDoListProps {   
+  gmailLoading: boolean;
+}
+
+const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading }) => {
+  const [loading, setLoading] = useState(gmailLoading);
   const [captionIndex, setCaptionIndex] = useState(0);
   const [activeView, setActiveView] = useState<
     "dashboard" | "archived" | "config"
   >("dashboard");
   const [showAddTask, setShowAddTask] = useState(false);
+  const [isGmailConnected, setIsGmailConnected] = useState(false);
+
+  useEffect(() => {
+    const email = localStorage.getItem("gmailEmail") as string;
+    setIsGmailConnected(!!email);
+
+    console.log("isGmailConnected", isGmailConnected);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gmailLoading]);
 
   const loadingCaptions = [
     "Hold tight, email ninjas at work!",
@@ -44,15 +57,15 @@ const ToDoList: React.FC = () => {
     return () => clearInterval(timer);
   }, [loading, loadingCaptions.length]);
 
-  const storedTasks = localStorage.getItem("tasks");
-  const tasksExist = storedTasks ? JSON.parse(storedTasks).length > 0 : false;
-
   const renderPanel = () => {
     if (activeView === "dashboard") {
-      return tasksExist || loading ? (
-        <TaskList fetchTasks={handlefetchTasks} loading={loading} />
-      ) : (
-        <TaskList fetchTasks={handlefetchTasks} loading={loading} />
+      return (
+        <TaskList
+          fetchTasks={handlefetchTasks}
+          loading={loading}
+          isGmailConnected={isGmailConnected}
+          setShowAddTask={setShowAddTask}
+        />
       );
     }
     if (activeView === "archived") {
@@ -87,7 +100,7 @@ const ToDoList: React.FC = () => {
               <button
                 className={styles.refreshButton}
                 onClick={handlefetchTasks}
-                disabled={loading || activeView !== "dashboard"}
+                disabled={!isGmailConnected || loading || activeView !== "dashboard"}
               >
                 <RefreshIcon />
               </button>
@@ -152,7 +165,7 @@ const ToDoList: React.FC = () => {
                   <button
                     className={styles.refreshButton}
                     onClick={handlefetchTasks}
-                    disabled={loading || activeView !== "dashboard"}
+                    disabled={!isGmailConnected || loading || activeView !== "dashboard"}
                   >
                     <RefreshIcon />
                   </button>

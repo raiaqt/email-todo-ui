@@ -1,7 +1,7 @@
 export async function submitEmail(email: string): Promise<string> {
   const webhookURL = import.meta.env.VITE_GOOGLE_SHEETS_URL;
   console.log(email);
-  if (!/\S+@\S+\.\S+/.test(email)) {
+  if (email && !/\S+@\S+\.\S+/.test(email)) {
     throw new Error("Invalid email format");
   }
 

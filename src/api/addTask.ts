@@ -5,7 +5,9 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const addTask = async (sendTo: string, task: string, deadline?: string) => {
   try {
     const sender_name = localStorage.getItem("name") || "";
-    const sender_email = localStorage.getItem("name") || "";
+    const sender_email = localStorage.getItem("email") || "";
+
+    console.log("sender_name", sender_name);
 
     const payload = {
       sender_name,
