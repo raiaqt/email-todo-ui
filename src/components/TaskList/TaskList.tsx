@@ -22,16 +22,18 @@ interface TaskListProps {
   error?: boolean;
   fetchTasks: () => void;
   loading?: boolean;
-  isGmailConnected: boolean;
   setShowAddTask: (show: boolean) => void;
+  showAddTask: boolean;
+  isGmailConnected: boolean;
 }
 
 const TaskList: React.FC<TaskListProps> = ({
   error,
   fetchTasks,
   loading,
-  isGmailConnected,
   setShowAddTask,
+  showAddTask,
+  isGmailConnected,
 }) => {
   const [tasks, setTasks] = useState<Task[] | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
@@ -61,7 +63,7 @@ const TaskList: React.FC<TaskListProps> = ({
         setLastUpdated(lastUpdatedTime);
       }
     }
-  }, [loading]);
+  }, [loading, showAddTask]);
 
   // NEW: Cleanup new tasks on unmount
   useEffect(() => {

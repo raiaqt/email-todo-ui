@@ -13,11 +13,12 @@ import { fetchTasks } from "../api/task";
 import logo from "../assets/logo.png";
 import styles from "./ToDoList.module.css";
 
-interface ToDoListProps {   
+interface ToDoListProps {
   gmailLoading: boolean;
+  gmailSuccess: boolean;
 }
 
-const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading }) => {
+const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
   const [loading, setLoading] = useState(gmailLoading);
   const [captionIndex, setCaptionIndex] = useState(0);
   const [activeView, setActiveView] = useState<
@@ -30,8 +31,7 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading }) => {
     const email = localStorage.getItem("gmailEmail") as string;
     setIsGmailConnected(!!email);
 
-    console.log("isGmailConnected", isGmailConnected);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gmailLoading]);
 
   const loadingCaptions = [
@@ -45,6 +45,12 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading }) => {
     setLoading(true);
     await fetchTasks(setLoading);
   };
+
+  // useEffect(() => {
+  //   if (gmailSuccess || isGmailConnected) {
+  //     handlefetchTasks();
+  //   }
+  // }, [gmailSuccess, isGmailConnected]);
 
   useEffect(() => {
     if (!loading) {
@@ -63,8 +69,9 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading }) => {
         <TaskList
           fetchTasks={handlefetchTasks}
           loading={loading}
-          isGmailConnected={isGmailConnected}
           setShowAddTask={setShowAddTask}
+          showAddTask={showAddTask}
+          isGmailConnected={isGmailConnected || gmailSuccess}
         />
       );
     }
@@ -100,7 +107,11 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading }) => {
               <button
                 className={styles.refreshButton}
                 onClick={handlefetchTasks}
-                disabled={!isGmailConnected || loading || activeView !== "dashboard"}
+                disabled={
+                  !(isGmailConnected && !gmailSuccess) ||
+                  loading ||
+                  activeView !== "dashboard"
+                }
               >
                 <RefreshIcon />
               </button>
@@ -165,7 +176,11 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading }) => {
                   <button
                     className={styles.refreshButton}
                     onClick={handlefetchTasks}
-                    disabled={!isGmailConnected || loading || activeView !== "dashboard"}
+                    disabled={
+                      (!isGmailConnected && !gmailSuccess) ||
+                      loading ||
+                      activeView !== "dashboard"
+                    }
                   >
                     <RefreshIcon />
                   </button>

@@ -10,6 +10,7 @@ import "./App.css";
 const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [name, setName] = useState<string | null>(null);
+  const [gmailSuccess, setGmailSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -20,6 +21,7 @@ const App: React.FC = () => {
       setLoading(true);
       exchangeCodeForTokens(authorizationCode, () => {
         setLoading(false);
+        setGmailSuccess(true);
       });
     }
   }, []);
@@ -82,7 +84,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      {loading ? <Loader /> : name ? <ToDoList gmailLoading={loading} /> : <LandingPage />}
+      {loading ? <Loader /> : name ? <ToDoList gmailLoading={loading} gmailSuccess={gmailSuccess} /> : <LandingPage />}
     </div>
   );
 };

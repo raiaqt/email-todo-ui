@@ -2,7 +2,11 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const addTask = async (sendTo: string, task: string, deadline?: string) => {
+export const sendTask = async (
+  sendTo: string,
+  task: string,
+  deadline?: string
+) => {
   try {
     const sender_name = localStorage.getItem("name") || "";
     const sender_email = localStorage.getItem("email") || "";
@@ -14,15 +18,57 @@ export const addTask = async (sendTo: string, task: string, deadline?: string) =
       sender_email,
       recepient_email: sendTo,
       task,
-      ...(deadline ? { deadline } : {})
+      ...(deadline ? { deadline } : {}),
     };
 
     const response = await axios.post(`${API_URL}/send-email`, payload, {
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     });
     return response.data;
   } catch (error) {
     console.error("Error sending email:", error);
+    throw error;
+  }
+};
+
+export const addTask = async ({
+  deadline,
+  summary,
+}: {
+  deadline: string;
+  summary: string;
+}) => {
+  try {
+    const newTasks = [
+      {
+        deadline,
+        summary,
+        from: localStorage.getItem("name") || "",
+        subject: "Task Added",
+        isNew: true,
+      },
+    ];
+
+    const storedTasks = localStorage.getItem("tasks");
+    let mergedTasks;
+    if (storedTasks) {
+      mergedTasks = JSON.parse(storedTasks).concat(newTasks);
+    } else {
+      mergedTasks = newTasks;
+    }
+
+    mergedTasks.sort((a: { deadline: string }, b: { deadline: string }) => {
+      let timeA = new Date(a.deadline).getTime();
+      let timeB = new Date(b.deadline).getTime();
+      if (a.deadline === "No deadline" || isNaN(timeA)) timeA = Infinity;
+      if (b.deadline === "No deadline" || isNaN(timeB)) timeB = Infinity;
+      return timeA - timeB;
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(mergedTasks));
+    return newTasks;
+  } catch (error) {
+    console.error("Error adding task:", error);
     throw error;
   }
 };

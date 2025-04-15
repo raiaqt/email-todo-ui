@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import logout from "../../api/logout";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import disconnectGmail from "../../api/disconnectGmail";
 import connectGmail from "../../api/connectGmail";
-
+import "./ConfigPanel.css";
+import MailIcon from '@mui/icons-material/Mail';
 
 const ConfigPanel: React.FC = () => {
   const [isGmailConnected, setIsGmailConnected] = useState(false);
@@ -20,9 +16,11 @@ const ConfigPanel: React.FC = () => {
   }, []);
 
   const handleClearAllData = () => {
-    if (window.confirm("Are you sure you want to clear all data? This action cannot be undone.")) {
-      localStorage.removeItem("gmailEmail");
-      localStorage.removeItem("gmailName");
+    if (
+      window.confirm(
+        "Are you sure you want to clear all data? This action cannot be undone."
+      )
+    ) {
       localStorage.removeItem("tasks");
       localStorage.removeItem("archive");
       localStorage.removeItem("lastUpdated");
@@ -31,85 +29,40 @@ const ConfigPanel: React.FC = () => {
   };
 
   return (
-    <Box
-      sx={{ display: "flex", flexDirection: "column", gap: 4 }}
-      style={{ minHeight: "calc(100vh - 185px)" }}
-    >
-      <Box>
-        <Typography variant="h6" gutterBottom>
-          Gmail Account
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 1.5 }}>
+    <div className="config-panel">
+      <div className="config-card">
+        <h6><MailIcon style={{ marginRight: '4px' }} /> Gmail Account</h6>
+        <p>
           {isGmailConnected
             ? `Connected as ${emailAddress}`
             : "Not connected to Gmail"}
-        </Typography>
-        {isGmailConnected ? ( <Button
-          variant={isGmailConnected ? "outlined" : "contained"}
-          sx={{
-            backgroundColor: isGmailConnected ? "grey.100" : "#D44638",
-            color: isGmailConnected ? "text.primary" : "#fff",
-            "&:hover": {
-              backgroundColor: isGmailConnected ? "grey.200" : "#BF3E32",
-            },
-          }}
-          onClick={disconnectGmail}
-          startIcon={<MailOutlineIcon />}
-        >
-          Disconnect Gmail
-        </Button>):  <Button
-          variant={isGmailConnected ? "outlined" : "contained"}
-          sx={{
-            backgroundColor: isGmailConnected ? "grey.100" : "#D44638",
-            color: isGmailConnected ? "text.primary" : "#fff",
-            "&:hover": {
-              backgroundColor: isGmailConnected ? "grey.200" : "#BF3E32",
-            },
-          }}
-          onClick={connectGmail}
-          startIcon={<MailOutlineIcon />}
-        >
-          Connect with Gmail
-        </Button>}
-       
-      </Box>
-      <Box>
-        <Typography variant="h6" gutterBottom>
-          Logout
-        </Typography>
-        <Button
-          variant="outlined"
-          onClick={logout}
-          sx={{
-            color: "error.main",
-            borderColor: "error.main",
-            "&:hover": {
-              backgroundColor: "error.light",
-              borderColor: "error.dark",
-            },
-          }}
-          startIcon={<ExitToAppIcon />}
-        >
-          Logout
-        </Button>
-      </Box>
-      <Box>
-        <Typography variant="h6" gutterBottom>
-          Clear all data
-        </Typography>
-        <Button
-          variant="outlined"
-          onClick={handleClearAllData}
-          sx={{
-            color: "warning.main",
-            borderColor: "warning.main",
-            "&:hover": { backgroundColor: "warning.light" },
-          }}
-        >
+        </p>
+        {isGmailConnected ? (
+          <button className="gmail-connected-button" onClick={disconnectGmail}>
+            Disconnect Gmail
+          </button>
+        ) : (
+          <button className="gmail-disconnected-button" onClick={connectGmail}>
+            Connect with Gmail
+          </button>
+        )}
+      </div>
+
+      <div className="config-card">
+        <h6>Clear All Data</h6>
+        <p>This will remove all tasks, archives, and reset your session.</p>
+        <button className="clear-data-button" onClick={handleClearAllData}>
           Clear All Data
-        </Button>
-      </Box>
-    </Box>
+        </button>
+      </div>
+      <div className="config-card">
+        <h6>Logout</h6>
+        <p>End your session securely.</p>
+        <button className="logout-button" onClick={logout}>
+          Logout
+        </button>
+      </div>
+    </div>
   );
 };
 

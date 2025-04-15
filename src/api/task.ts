@@ -53,9 +53,7 @@ export const fetchTasks = async (setLoading: (loading: boolean) => void) => {
       if (b.deadline === "No deadline" || isNaN(timeB)) timeB = Infinity;
       return timeA - timeB;
     });
-
-    console.log("mergedTasks", mergedTasks);
-
+    
     localStorage.setItem("tasks", JSON.stringify(mergedTasks));
     localStorage.setItem("lastUpdated", new Date().toISOString());
     setLoading(false);
