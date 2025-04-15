@@ -105,7 +105,7 @@ const TaskList: React.FC<TaskListProps> = ({
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     const currentArchive = localStorage.getItem("archive");
     const archiveList = currentArchive ? JSON.parse(currentArchive) : [];
-    archiveList.push(taskToArchive);
+    archiveList.unshift(taskToArchive);
     localStorage.setItem("archive", JSON.stringify(archiveList));
   };
 

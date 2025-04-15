@@ -2,7 +2,7 @@
 
 .config-panel {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  padding: 24px;
+  padding: 12px 24px 72px;
   min-height: calc(100vh - 200px);
   display: flex;
   flex-direction: column;
