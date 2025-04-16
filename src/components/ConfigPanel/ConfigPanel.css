@@ -11,7 +11,7 @@
 }
 
 .config-card {
-  background-color: white;
+  background: rgba(255, 255, 255, 0.875);
   width: 100%;
   max-width: 500px;
   border-radius: 16px;

@@ -7,4 +7,5 @@ export interface Task {
   checked: boolean;
   priority?: boolean;
   isNew?: boolean;
+  prioritized?: boolean;
 }

@@ -15,7 +15,8 @@ interface TaskCardProps {
   togglePriority?: () => void;
   handleArchiveTask?: () => void;
   hideButtons?: boolean;
-  onSelectTask: (task: Task) => void;
+  onSelectTask: (task: Task, index: number) => void;
+  index: number;
 }
 
 const formatDeadline = (deadline: string): string => {
@@ -43,13 +44,14 @@ const TaskCard: React.FC<TaskCardProps> = ({
   togglePriority = () => {},
   handleArchiveTask = () => {},
   hideButtons = false,
-  onSelectTask
+  onSelectTask,
+  index,
 }) => {
   return (
     <motion.div
       layout
       className={`task-card ${isPriority ? "priority" : ""} ${
-        isDone ? "done" : ""
+        isDone && !hideButtons ? "done" : ""
       } ${task.isNew && !hideButtons ? "new-task" : ""}`}
     >
       <label className="task-left">
@@ -57,7 +59,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
           <input type="checkbox" checked={isDone} onChange={toggleTask} />
         </div>
         <div className="task-content">
-          <p className={`task-title ${isDone ? "completed" : ""}`}>
+          <p className={`task-title ${isDone && !hideButtons ? "completed" : ""}`}>
             {task.summary}
           </p>
 
@@ -68,13 +70,31 @@ const TaskCard: React.FC<TaskCardProps> = ({
               </span>
             )}
             <div className="task-actions-mobile">
-              <button className="task-btn archive" onClick={handleArchiveTask}>
+              <button
+                className="task-btn archive"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleArchiveTask();
+                }}
+              >
                 <ArchiveIcon />
               </button>
-              <button className="task-btn prioritize" onClick={togglePriority}>
+              <button
+                className="task-btn prioritize"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  togglePriority();
+                }}
+              >
                 {isPriority ? <StarIcon /> : <StarBorderIcon />}
               </button>
-              <button className="task-btn open-task" onClick={(e) => { e.stopPropagation(); onSelectTask(task); }}>
+              <button
+                className="task-btn open-task"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelectTask(task, index);
+                }}
+              >
                 <ChevronRightIcon />
               </button>
             </div>
@@ -83,13 +103,31 @@ const TaskCard: React.FC<TaskCardProps> = ({
       </label>
       {!hideButtons && (
         <div className="task-actions">
-          <button className="task-btn archive" onClick={handleArchiveTask}>
+          <button
+            className="task-btn archive"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleArchiveTask();
+            }}
+          >
             <ArchiveIcon />
           </button>
-          <button className="task-btn prioritize" onClick={togglePriority}>
+          <button
+            className="task-btn prioritize"
+            onClick={(e) => {
+              e.stopPropagation();
+              togglePriority();
+            }}
+          >
             {isPriority ? <StarIcon /> : <StarBorderIcon />}
           </button>
-          <button className="task-btn open-task" onClick={(e) => { e.stopPropagation(); onSelectTask(task); }}>
+          <button
+            className="task-btn open-task"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelectTask(task, index);
+            }}
+          >
             <ChevronRightIcon />
           </button>
         </div>

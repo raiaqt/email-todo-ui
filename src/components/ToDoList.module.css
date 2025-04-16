@@ -1,7 +1,11 @@
 /* ToDoList.module.css */
 .container {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: #f3f4f6;
+  /* background-color: #f3f4f6; */
+  background: url('../assets/background.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .appHeader {
@@ -75,7 +79,7 @@
 
 .tab {
   border: 1px solid #d1d5db;
-  background-color: #ffffff;
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
@@ -129,8 +133,10 @@
   display: flex;
   width: 100%;
   padding-bottom: 0;
-  height: calc(100vh - 66px);
+  height: calc(100vh - 63px);
   overflow-y: auto;
+
+  background: url('../assets/background.png') no-repeat center center fixed;
 }
 
 .todoContainer {

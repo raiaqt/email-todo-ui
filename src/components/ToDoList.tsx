@@ -21,10 +21,17 @@ interface ToDoListProps {
 
 const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
   const [loading, setLoading] = useState(gmailLoading);
-  const [activeView, setActiveView] = useState<"dashboard" | "archived" | "config">("dashboard");
+  const [activeView, setActiveView] = useState<
+    "dashboard" | "archived" | "config"
+  >("dashboard");
   const [showAddTask, setShowAddTask] = useState(false);
   const [isGmailConnected, setIsGmailConnected] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [selectedTask, setSelectedTask] = useState<{
+    task: Task;
+    index: number;
+  } | null>(null);
+  const [tasks, setTasks] = useState<Task[] | null>(null);
+
 
   useEffect(() => {
     const email = localStorage.getItem("gmailEmail") as string;
@@ -36,6 +43,10 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
     await fetchTasks(setLoading);
   };
 
+  const handleSelectTask = (task: Task, index: number) => {
+    setSelectedTask({ task, index });
+  };
+
   const renderPanel = () => {
     if (activeView === "dashboard") {
       return (
@@ -45,17 +56,43 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
           setShowAddTask={setShowAddTask}
           showAddTask={showAddTask}
           isGmailConnected={isGmailConnected || gmailSuccess}
-          onSelectTask={(task) => setSelectedTask(task)}
+          onSelectTask={(task, index) => handleSelectTask(task, index)}
+          setTasks={setTasks}
+          tasks={tasks}
+          safeTasks={safeTasks}
+          togglePriority={togglePriority}
+          handleArchiveTask={handleArchiveTask}
         />
       );
     }
     if (activeView === "archived") {
-      return <ArchiveList onSelectTask={(task) => setSelectedTask(task)} />;
+      return <ArchiveList onSelectTask={(task, index) => handleSelectTask(task, index)} />;
     }
     if (activeView === "config") {
       return <ConfigPanel />;
     }
     return null;
+  };
+
+  const safeTasks = tasks as Task[];
+
+  const togglePriority = (index: number) => {
+    const newTasks = [...safeTasks];
+    newTasks[index].priority = !newTasks[index].priority;
+    setTasks(newTasks);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+  };
+
+  // NEW: Function to archive a task
+  const handleArchiveTask = (index: number) => {
+    const taskToArchive = safeTasks[index];
+    const updatedTasks = safeTasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    const currentArchive = localStorage.getItem("archive");
+    const archiveList = currentArchive ? JSON.parse(currentArchive) : [];
+    archiveList.unshift(taskToArchive);
+    localStorage.setItem("archive", JSON.stringify(archiveList));
   };
 
   return (
@@ -98,18 +135,66 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
           <main className={styles.dashboardPanel}>
             <div className={styles.titleRow}>
               <div className={styles.tabs}>
-                <button className={`${styles.tab} ${activeView === "dashboard" ? styles.active : ""}`} onClick={() => setActiveView("dashboard")}> <ListAltIcon fontSize="small" style={{ marginRight: "8px" }} /> To Do</button>
-                <button className={`${styles.tab} ${activeView === "archived" ? styles.active : ""}`} onClick={() => setActiveView("archived")}> <ArchiveIcon fontSize="small" style={{ marginRight: "8px" }} /> Archived</button>
-                <button className={`${styles.tab} ${activeView === "config" ? styles.active : ""}`} onClick={() => setActiveView("config")}> <SettingsIcon fontSize="small" style={{ marginRight: "8px" }} /> Settings</button>
+                <button
+                  className={`${styles.tab} ${
+                    activeView === "dashboard" ? styles.active : ""
+                  }`}
+                  onClick={() => setActiveView("dashboard")}
+                >
+                  {" "}
+                  <ListAltIcon
+                    fontSize="small"
+                    style={{ marginRight: "8px" }}
+                  />{" "}
+                  To Do
+                </button>
+                <button
+                  className={`${styles.tab} ${
+                    activeView === "archived" ? styles.active : ""
+                  }`}
+                  onClick={() => setActiveView("archived")}
+                >
+                  {" "}
+                  <ArchiveIcon
+                    fontSize="small"
+                    style={{ marginRight: "8px" }}
+                  />{" "}
+                  Archived
+                </button>
+                <button
+                  className={`${styles.tab} ${
+                    activeView === "config" ? styles.active : ""
+                  }`}
+                  onClick={() => setActiveView("config")}
+                >
+                  {" "}
+                  <SettingsIcon
+                    fontSize="small"
+                    style={{ marginRight: "8px" }}
+                  />{" "}
+                  Settings
+                </button>
               </div>
               <div className={styles.taskButtons}>
                 <div className={styles.refreshContainer}>
-                  <button className={styles.addButton} onClick={() => setShowAddTask(true)} disabled={loading || activeView !== "dashboard"}>
+                  <button
+                    className={styles.addButton}
+                    onClick={() => setShowAddTask(true)}
+                    disabled={loading || activeView !== "dashboard"}
+                  >
                     <AddIcon />
                   </button>
                 </div>
                 <div className={styles.refreshContainer}>
-                  <button className={styles.refreshButton} onClick={handlefetchTasks} disabled={(!isGmailConnected && !gmailSuccess) || loading || activeView !== "dashboard"}>
+                  <button
+                    className={styles.refreshButton}
+                    onClick={handlefetchTasks}
+                    disabled={
+                      (!isGmailConnected && !gmailSuccess) ||
+                      loading ||
+                      activeView !== "dashboard"
+                    }
+                  >
                     <RefreshIcon />
                   </button>
                 </div>
@@ -118,16 +203,48 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
             {renderPanel()}
           </main>
 
-          {selectedTask && <TaskDrawer task={selectedTask} onClose={() => setSelectedTask(null)} />}
+          {selectedTask && (
+            <TaskDrawer
+              task={selectedTask.task}
+              onClose={() => setSelectedTask(null)}
+              onArchive={() => handleArchiveTask(selectedTask.index)}
+              onPrioritize={() => togglePriority(selectedTask.index)}
+              index={selectedTask.index}
+            />
+          )}
         </div>
 
-        <AddTaskModal show={showAddTask} onClose={() => setShowAddTask(false)} />
+        <AddTaskModal
+          show={showAddTask}
+          onClose={() => setShowAddTask(false)}
+        />
       </div>
 
       <div className={styles.mobileNav}>
-        <button className={`${styles.navButton} ${activeView === "dashboard" ? styles.activeNav : ""}`} onClick={() => setActiveView("dashboard")}><ListAltIcon fontSize="small" /></button>
-        <button className={`${styles.navButton} ${activeView === "archived" ? styles.activeNav : ""}`} onClick={() => setActiveView("archived")}><ArchiveIcon fontSize="small" /></button>
-        <button className={`${styles.navButton} ${activeView === "config" ? styles.activeNav : ""}`} onClick={() => setActiveView("config")}><SettingsIcon fontSize="small" /></button>
+        <button
+          className={`${styles.navButton} ${
+            activeView === "dashboard" ? styles.activeNav : ""
+          }`}
+          onClick={() => setActiveView("dashboard")}
+        >
+          <ListAltIcon fontSize="small" />
+        </button>
+        <button
+          className={`${styles.navButton} ${
+            activeView === "archived" ? styles.activeNav : ""
+          }`}
+          onClick={() => setActiveView("archived")}
+        >
+          <ArchiveIcon fontSize="small" />
+        </button>
+        <button
+          className={`${styles.navButton} ${
+            activeView === "config" ? styles.activeNav : ""
+          }`}
+          onClick={() => setActiveView("config")}
+        >
+          <SettingsIcon fontSize="small" />
+        </button>
       </div>
     </div>
   );

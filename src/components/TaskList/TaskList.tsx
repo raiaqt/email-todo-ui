@@ -21,7 +21,12 @@ interface TaskListProps {
   setShowAddTask: (show: boolean) => void;
   showAddTask: boolean;
   isGmailConnected: boolean;
-  onSelectTask: (task: Task) => void;
+  onSelectTask: (task: Task, index: number) => void;
+  setTasks: (tasks: Task[]) => void;
+  tasks: Task[] | null;
+  safeTasks: Task[];
+  togglePriority: (index: number) => void;
+  handleArchiveTask: (index: number) => void;
 }
 
 const TaskList: React.FC<TaskListProps> = ({
@@ -32,8 +37,12 @@ const TaskList: React.FC<TaskListProps> = ({
   showAddTask,
   isGmailConnected,
   onSelectTask,
+  tasks,
+  setTasks,
+  safeTasks,
+  togglePriority,
+  handleArchiveTask,
 }) => {
-  const [tasks, setTasks] = useState<Task[] | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [captionIndex, setCaptionIndex] = useState(0);
 
@@ -90,32 +99,13 @@ const TaskList: React.FC<TaskListProps> = ({
     return () => clearInterval(timer);
   }, [loading, loadingCaptions.length]);
 
-  const safeTasks = tasks as Task[];
+ 
 
   const toggleTask = (index: number) => {
     const newTasks = [...safeTasks];
     newTasks[index].checked = !newTasks[index].checked;
     setTasks(newTasks);
     localStorage.setItem("tasks", JSON.stringify(newTasks));
-  };
-
-  const togglePriority = (index: number) => {
-    const newTasks = [...safeTasks];
-    newTasks[index].priority = !newTasks[index].priority;
-    setTasks(newTasks);
-    localStorage.setItem("tasks", JSON.stringify(newTasks));
-  };
-
-  // NEW: Function to archive a task
-  const handleArchiveTask = (index: number) => {
-    const taskToArchive = safeTasks[index];
-    const updatedTasks = safeTasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
-    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-    const currentArchive = localStorage.getItem("archive");
-    const archiveList = currentArchive ? JSON.parse(currentArchive) : [];
-    archiveList.unshift(taskToArchive);
-    localStorage.setItem("archive", JSON.stringify(archiveList));
   };
 
   useEffect(() => {
@@ -211,7 +201,8 @@ const TaskList: React.FC<TaskListProps> = ({
           toggleTask={() => toggleTask(index)}
           togglePriority={() => togglePriority(index)}
           handleArchiveTask={() => handleArchiveTask(index)}
-          onSelectTask={() => onSelectTask(task)}
+          onSelectTask={() => onSelectTask(task, index)}
+          index={index}
         />
       ))}
     </div>

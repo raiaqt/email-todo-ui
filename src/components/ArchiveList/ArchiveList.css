@@ -1,9 +1,15 @@
 .archive-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 0;
     padding-bottom: 60px;
     padding-top: 20px;
+    border-radius: 16px;
+}
+
+.archive-list .task-card {
+    border-radius: 0;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .placeholder {

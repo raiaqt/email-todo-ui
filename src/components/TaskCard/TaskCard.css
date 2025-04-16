@@ -1,7 +1,7 @@
 /* TaskCard.css - Styles for TaskCard component */
 
 .task-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 16px;
     padding: 16px 20px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
@@ -101,7 +101,7 @@
 .task-meta {
     font-size: 14px;
     color: #6b7280;
-    margin: 2px 0;
+    margin: 2px 0 0;
 }
 
 .task-actions {
@@ -214,6 +214,15 @@
     .task-actions {
         display: none !important;
         width: 0 !important;
+        z-index: 1000 !important;
+    }
+
+    .task-card {
+        padding: 12px 8px;
+    }
+
+    .task-left {
+        gap: 8px;
     }
 
     .task-actions-mobile {

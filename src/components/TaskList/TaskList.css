@@ -94,4 +94,8 @@
     font-size: 14px;
     /* Smaller font size for placeholder text on mobile */
   }
+
+  .task-list {
+    gap: 14px;
+  }
 }

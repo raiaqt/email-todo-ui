@@ -120,7 +120,7 @@ const LandingPage: React.FC = () => {
                   color: "#F97316",
                 }}
               />
-              Your data stays private — we never store it
+              Your data stays private. We never store it
             </li>
           </ul>
         </div>
@@ -135,7 +135,7 @@ const LandingPage: React.FC = () => {
           <h2>Your Smart Inbox</h2>
           <p>
             A calm, focused dashboard powered by AI. Sortify filters the noise
-            and highlights only what matters — so you can move fast and stay
+            and highlights only what matters so you can move fast and stay
             clear.
           </p>
           <ul>

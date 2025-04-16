@@ -3,19 +3,11 @@ import "./ArchiveList.css";
 import InboxIcon from "@mui/icons-material/Inbox";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import TaskCard from "../TaskCard/TaskCard";
-
-interface Task {
-  deadline: string;
-  detailed_tasks: string;
-  from: string;
-  subject: string;
-  summary: string;
-  checked: boolean;
-}
+import { Task } from "../../interface";
 
 interface ArchiveListProps {
   error?: boolean;
-  onSelectTask: (task: Task) => void;
+  onSelectTask: (task: Task, index: number) => void;
 }
 
 const ArchiveList: React.FC<ArchiveListProps> = ({ error, onSelectTask }) => {
@@ -54,7 +46,8 @@ const ArchiveList: React.FC<ArchiveListProps> = ({ error, onSelectTask }) => {
           task={task}
           isDone={task.checked}
           hideButtons={true}
-          onSelectTask={onSelectTask}
+          onSelectTask={(task, index) => onSelectTask(task, index)}
+          index={index}
         />
       ))}
     </div>
