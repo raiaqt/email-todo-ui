@@ -3,7 +3,7 @@ import "./LandingPage.css";
 import inboxflow from "../assets/inboxflow.png";
 import dashboard from "../assets/dashboard.png";
 import logo from "../assets/logo.png";
-import aiSort from "../assets/AISort.png";
+import aiSort from "../assets/aiSort.png";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
