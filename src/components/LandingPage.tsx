@@ -261,6 +261,7 @@ const LandingPage: React.FC = () => {
         onNameChange={(e) => setName(e.target.value)}
       />
       <FeedbackModal
+        title={`Hi, ${name}!`}
         message={feedbackMessage}
         show={showFeedbackModal}
         onClose={handleFeedbackModalClose}
