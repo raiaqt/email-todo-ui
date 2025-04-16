@@ -1,0 +1,7 @@
+<h2>Sortify</h2>
+          <h1>Turn your inbox<br/>into a focused,<br/>AI-powered to-do list</h1>
+          <p>
+            Get started in seconds
+            and prepare for a future where all your productivity tools are
+            seamlessly integrated.
+          </p>
