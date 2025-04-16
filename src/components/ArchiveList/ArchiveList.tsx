@@ -15,9 +15,10 @@ interface Task {
 
 interface ArchiveListProps {
   error?: boolean;
+  onSelectTask: (task: Task) => void;
 }
 
-const ArchiveList: React.FC<ArchiveListProps> = ({ error }) => {
+const ArchiveList: React.FC<ArchiveListProps> = ({ error, onSelectTask }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const ArchiveList: React.FC<ArchiveListProps> = ({ error }) => {
           task={task}
           isDone={task.checked}
           hideButtons={true}
+          onSelectTask={onSelectTask}
         />
       ))}
     </div>

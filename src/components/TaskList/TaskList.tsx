@@ -6,18 +6,14 @@ import EmailIcon from "@mui/icons-material/Email";
 import TaskCard from "../TaskCard/TaskCard";
 import LastUpdated from "../LastUpdated/LastUpdated";
 import connectGmail from "../../api/connectGmail";
+import { Task } from "../../interface";
 
-interface Task {
-  deadline: string;
-  detailed_tasks: string;
-  from: string;
-  subject: string;
-  summary: string;
-  checked: boolean;
-  priority: boolean;
-  isNew?: boolean;
-}
-
+const loadingCaptions = [
+  "Hold tight, email ninjas at work!",
+  "Counting emails like they're treasure...",
+  "Polishing your inbox with a magic wand...",
+  "Herding cats and emails simultaneously!",
+];
 interface TaskListProps {
   error?: boolean;
   fetchTasks: () => void;
@@ -25,6 +21,7 @@ interface TaskListProps {
   setShowAddTask: (show: boolean) => void;
   showAddTask: boolean;
   isGmailConnected: boolean;
+  onSelectTask: (task: Task) => void;
 }
 
 const TaskList: React.FC<TaskListProps> = ({
@@ -34,9 +31,11 @@ const TaskList: React.FC<TaskListProps> = ({
   setShowAddTask,
   showAddTask,
   isGmailConnected,
+  onSelectTask,
 }) => {
   const [tasks, setTasks] = useState<Task[] | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const [captionIndex, setCaptionIndex] = useState(0);
 
   useEffect(() => {
     if (!loading) {
@@ -53,8 +52,7 @@ const TaskList: React.FC<TaskListProps> = ({
               ? task.priority
               : !task.deadline || task.deadline === "No deadline"
               ? false
-              : new Date(task.deadline).toDateString() ===
-                new Date().toDateString(),
+              : new Date(task.deadline).setHours(0,0,0,0) <= new Date().setHours(0,0,0,0),
         }));
         setTasks(tasksWithFields);
       }
@@ -80,6 +78,17 @@ const TaskList: React.FC<TaskListProps> = ({
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      setCaptionIndex(0);
+      return;
+    }
+    const timer = setInterval(() => {
+      setCaptionIndex((prev) => (prev + 1) % loadingCaptions.length);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, [loading, loadingCaptions.length]);
 
   const safeTasks = tasks as Task[];
 
@@ -120,6 +129,15 @@ const TaskList: React.FC<TaskListProps> = ({
       }
     }
   }, [tasks]);
+
+  if (loading && (!tasks || tasks.length === 0)) {
+    return (
+      <div className="placeholder">
+        <div className="spinner"></div>
+        <p className="loading-text">{loadingCaptions[captionIndex]}</p>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -193,6 +211,7 @@ const TaskList: React.FC<TaskListProps> = ({
           toggleTask={() => toggleTask(index)}
           togglePriority={() => togglePriority(index)}
           handleArchiveTask={() => handleArchiveTask(index)}
+          onSelectTask={() => onSelectTask(task)}
         />
       ))}
     </div>

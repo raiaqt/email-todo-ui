@@ -1,0 +1,160 @@
+.drawerOverlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: flex-end;
+    z-index: 1000;
+}
+
+.drawer {
+    background: #f9fafb;
+    width: 480px;
+    max-width: 100%;
+    height: 100%;
+    box-shadow: -2px 0 16px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease-out;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.drawerHeader {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    font-size: 1.2rem;
+    transition: color 0.2s;
+    padding: 4px;
+}
+
+.closeButton:hover {
+    color: #171e69;
+}
+
+.drawerContent {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-right: 4px;
+}
+
+.metaBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.metaLabel {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.metaValue {
+    font-size: 15px;
+    color: #1f2937;
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+.metaValueFrom {
+    font-size: 13px;
+    color: #1f2937;
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+.metaBlockDeadline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.metaValue.summary {
+    background-color: #ffffff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 1px #e5e7eb;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.drawerFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.actionButton {
+    background: #f3f4f6;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.actionButton:hover {
+    background: #e5e7eb;
+}
+
+.deadlineBadge {
+    background-color: #e6e8fd;
+    /* very soft navy background */
+    color: #171e69;
+    /* Sortify's navy */
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+
+@media (max-width: 600px) {
+    .drawer {
+        width: 100%;
+        padding: 16px;
+    }
+}
+
+.textContainer {
+    background-color: #ffffff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 1px #e5e7eb;
+}

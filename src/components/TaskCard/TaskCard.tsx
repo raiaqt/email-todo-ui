@@ -1,18 +1,11 @@
 import React from "react";
 import "./TaskCard.css";
-import ArchiveIcon from "@mui/icons-material/Archive";
+import ArchiveIcon from "@mui/icons-material/ArchiveOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { motion } from "framer-motion";
-
-interface Task {
-  deadline: string;
-  detailed_tasks: string;
-  from: string;
-  subject: string;
-  summary: string;
-  isNew?: boolean;
-}
+import { Task } from "../../interface";
 
 interface TaskCardProps {
   task: Task;
@@ -22,7 +15,25 @@ interface TaskCardProps {
   togglePriority?: () => void;
   handleArchiveTask?: () => void;
   hideButtons?: boolean;
+  onSelectTask: (task: Task) => void;
 }
+
+const formatDeadline = (deadline: string): string => {
+  const validRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!deadline || !validRegex.test(deadline)) return "No deadline";
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().slice(0, 10);
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  const yesterdayStr = yesterday.toISOString().slice(0, 10);
+  if (deadline === todayStr) return "Today";
+  if (deadline === tomorrowStr) return "Tomorrow";
+  if (deadline === yesterdayStr) return "Yesterday";
+  return deadline;
+};
 
 const TaskCard: React.FC<TaskCardProps> = ({
   task,
@@ -32,6 +43,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   togglePriority = () => {},
   handleArchiveTask = () => {},
   hideButtons = false,
+  onSelectTask
 }) => {
   return (
     <motion.div
@@ -48,11 +60,25 @@ const TaskCard: React.FC<TaskCardProps> = ({
           <p className={`task-title ${isDone ? "completed" : ""}`}>
             {task.summary}
           </p>
-          <p className="task-meta">
-            {task.deadline && /^\d{4}-\d{2}-\d{2}$/.test(task.deadline)
-              ? task.deadline
-              : "No deadline"}
-          </p>
+
+          <div className="task-meta-group">
+            {task.deadline && (
+              <span className="task-deadline">
+                {formatDeadline(task.deadline)}
+              </span>
+            )}
+            <div className="task-actions-mobile">
+              <button className="task-btn archive" onClick={handleArchiveTask}>
+                <ArchiveIcon />
+              </button>
+              <button className="task-btn prioritize" onClick={togglePriority}>
+                {isPriority ? <StarIcon /> : <StarBorderIcon />}
+              </button>
+              <button className="task-btn open-task" onClick={(e) => { e.stopPropagation(); onSelectTask(task); }}>
+                <ChevronRightIcon />
+              </button>
+            </div>
+          </div>
         </div>
       </label>
       {!hideButtons && (
@@ -62,6 +88,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
           </button>
           <button className="task-btn prioritize" onClick={togglePriority}>
             {isPriority ? <StarIcon /> : <StarBorderIcon />}
+          </button>
+          <button className="task-btn open-task" onClick={(e) => { e.stopPropagation(); onSelectTask(task); }}>
+            <ChevronRightIcon />
           </button>
         </div>
       )}

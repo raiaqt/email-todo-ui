@@ -1,53 +1,77 @@
 .task-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 60px;
+  margin-top: 20px;
 }
 
 .placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 20px 20px;
-    margin-top: 0;
-    animation: fadeIn 0.3s ease-in-out;
-    color: #6b7280;
-    min-height: calc(100vh - 320px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 20px;
+  margin-top: 0;
+  animation: fadeIn 0.3s ease-in-out;
+  color: #6b7280;
+  min-height: calc(100vh - 320px);
 }
 
 .placeholder svg {
-    font-size: 48px;
+  font-size: 48px;
 }
 
 .placeholder p {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
 }
 
 .placeholder.empty {
-    color: #9ca3af;
+  color: #9ca3af;
+  margin-top: 0;
 }
 
 .placeholder.error {
-    color: #ef4444;
+  color: #ef4444;
 }
 
 .sync-button {
-    background-color: #4F46E5; /* Example: a nice shade of blue */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  background-color: #4F46E5;
+  /* Example: a nice shade of blue */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .sync-button:hover {
-    background-color: #3730A3; /* Darker shade on hover */
+  background-color: #3730A3;
+  /* Darker shade on hover */
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #6b7280;
+  font-weight: 500;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.placeholder .spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #4338CA;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+  margin: 60px auto;
 }
 
 /* Added to always display task buttons on mobile devices */
@@ -57,14 +81,17 @@
   }
 
   .task-title {
-    font-size: 14px; /* Smaller font size for task titles on mobile */
+    font-size: 14px;
+    /* Smaller font size for task titles on mobile */
   }
 
   .task-meta {
-    font-size: 12px; /* Smaller font size for task metadata on mobile */
+    font-size: 12px;
+    /* Smaller font size for task metadata on mobile */
   }
 
   .placeholder p {
-    font-size: 14px; /* Smaller font size for placeholder text on mobile */
+    font-size: 14px;
+    /* Smaller font size for placeholder text on mobile */
   }
 }

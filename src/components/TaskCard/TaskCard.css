@@ -28,7 +28,8 @@
 }
 
 .task-card.new-task {
-    background-color: #f0f8ff; /* Light blue to indicate a new task */
+    background-color: #f0f8ff;
+    /* Light blue to indicate a new task */
     animation: popUp 1s ease-in-out;
 }
 
@@ -37,7 +38,7 @@
     align-items: flex-start;
     gap: 16px;
     flex: 1;
-    max-width: calc(100% - 80px);
+    max-width: 100%;
 }
 
 .task-left input[type="checkbox"] {
@@ -104,10 +105,15 @@
 }
 
 .task-actions {
-    display: none;
+    opacity: 0;
+    width: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .task-card:hover .task-actions {
+    opacity: 1;
     display: flex;
 }
 
@@ -115,14 +121,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    border-radius: 50%;
+    width: 32px;
+    border-radius: 20%;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
     background-color: transparent;
-    padding: 0;
-    filter: brightness(0.9);
+    padding: 4px;
+    opacity: 0.7;
+}
+
+.task-btn:hover {
+    background-color: #c7cbd1;
 }
 
 .task-btn:active {
@@ -142,15 +152,71 @@
     color: #1976d2;
 }
 
-.task-btn:hover {
-    transform: scale(1.1);
-    filter: brightness(1);
+.task-btn.open-task {
+    color: #6b7280;
+}
+
+.task-meta-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-bottom: 6px;
+}
+
+.task-deadline {
+    /* background-color: #f3f4f6; */
+    border-radius: 6px;
+    font-size: 12px;
+    color: #4b5563;
+}
+
+.task-source {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.gmail-icon {
+    font-size: 14px !important;
+    color: #D93025;
+    opacity: 0.6;
+}
+
+.task-actions-mobile {
+    display: none;
 }
 
 /* Animation for new task pop up */
 @keyframes popUp {
-    0% { transform: scale(0.9); opacity: 0.5; }
-    50% { transform: scale(1.05); opacity: 1; }
-    70% { transform: scale(0.975); }
-    100% { transform: scale(1); }
-} 
+    0% {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    70% {
+        transform: scale(0.975);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .task-actions {
+        display: none !important;
+        width: 0 !important;
+    }
+
+    .task-actions-mobile {
+        display: flex;
+    }
+}

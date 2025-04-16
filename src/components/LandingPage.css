@@ -552,3 +552,26 @@ body {
 .split-section .image-content img:hover {
   transform: scale(1.03);
 }
+
+/* Mobile Styles for Split Sections */
+@media (max-width: 768px) {
+  .split-section {
+    flex-direction: column;
+    padding: 60px 20px;
+    gap: 30px;
+  }
+
+  .split-section.reverse {
+    flex-direction: column;
+  }
+
+  .split-section .text-content {
+    text-align: center;
+  }
+
+  .split-section .image-content img {
+    width: calc(100vw - 40px);
+    height: 230px;
+    object-fit: cover;
+  }
+}
