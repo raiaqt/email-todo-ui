@@ -49,7 +49,7 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
   };
 
   useEffect(() => {
-    if (isGmailConnected) {
+    if (isGmailConnected && !!localStorage.getItem("tasks")) {
       handlefetchTasks();
     }
   }, [isGmailConnected]);

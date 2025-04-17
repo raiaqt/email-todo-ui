@@ -21,11 +21,12 @@
     padding: 60px 20px;
     margin-top: 0;
     animation: fadeIn 0.3s ease-in-out;
-    color: #6b7280;
+    color: #606673;
 }
 
 .placeholder svg {
     font-size: 48px;
+    color: #606673;
 }
 
 .placeholder p {
@@ -35,7 +36,7 @@
 }
 
 .placeholder.empty {
-    color: #9ca3af;
+    color: #606673;
 }
 
 .placeholder.error {

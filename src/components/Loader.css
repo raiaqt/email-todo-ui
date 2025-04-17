@@ -3,18 +3,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  background: linear-gradient(170deg,
+      #e5ecf7 0%,
+      #edf1f9 15%,
+      #f7f8fa 45%,
+      #fef8f1 60%,
+      #fef8f1 90%,
+      #f7f8fa 100%);
+  /* background-attachment: fixed; */
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-bottom: 100px;
 }
 
 .loader {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #3498db;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #4338CA;
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
+  width: 100px;
+  height: 100px;
+  animation: spin 1s linear infinite;
+  margin: 60px auto;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-} 
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

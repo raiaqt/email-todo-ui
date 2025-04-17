@@ -15,22 +15,24 @@
   padding: 20px 20px;
   margin-top: 0;
   animation: fadeIn 0.3s ease-in-out;
-  color: #6b7280;
+  color: #606673;
   min-height: calc(100vh - 320px);
 }
 
 .placeholder svg {
   font-size: 48px;
+  color: #606673;
 }
 
 .placeholder p {
   font-size: 16px;
   font-weight: 500;
   margin: 0;
+  color: #606673;
 }
 
 .placeholder.empty {
-  color: #9ca3af;
+  color: #606673;
   margin-top: 0;
 }
 

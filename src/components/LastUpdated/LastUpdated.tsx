@@ -56,7 +56,7 @@ const LastUpdated: React.FC<LastUpdatedProps> = ({ loading, lastUpdated }) => {
   }, [tick, lastUpdated]);
 
   return (
-    <div className="last-updated" style={{ fontSize: "0.8em", color: "#666", marginBottom: "0", textAlign: "center" }}>
+    <div className="last-updated" style={{ fontSize: "0.8em", fontWeight: "500", color: "#656c69", marginBottom: "0", textAlign: "center" }}>
       {loading ? "Creating latest tasks..." : `Last updated ${formatRelativeTime(lastUpdated)}`}
     </div>
   );
