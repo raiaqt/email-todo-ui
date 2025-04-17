@@ -6,12 +6,13 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; */
-  background: linear-gradient(180deg,
-      #d3e0f2 0%,
-      #e2e9f7 20%,
-      #f3f4f6 50%,
-      #fdf1e9 80%,
-      #ffe8d4 100%);
+  background: linear-gradient(175deg,
+  #b1c5e1 0%,
+  #c8d4ed 25%,
+  #e3dfe2 70%,
+  #f1e5d6 95%,
+  #f5cdb2 100%
+  );
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
