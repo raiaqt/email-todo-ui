@@ -6,15 +6,15 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; */
-  background: linear-gradient(
-    to bottom,
-    #e8ecf4 0%,     /* Top: soft blue-gray */
-    #fefcf9 50%,    /* Middle: off-white */
-    #ffe9d6 100%    /* Bottom: sunset cream */
-  );
+  background: linear-gradient(180deg,
+      #d3e0f2 0%,
+      #e2e9f7 20%,
+      #f3f4f6 50%,
+      #fdf1e9 80%,
+      #ffe8d4 100%);
   background-attachment: fixed;
-  background-repeat: no-repeat;
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .containerClean {

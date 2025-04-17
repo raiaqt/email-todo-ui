@@ -4,6 +4,7 @@ import disconnectGmail from "../../api/disconnectGmail";
 import connectGmail from "../../api/connectGmail";
 import "./ConfigPanel.css";
 import MailIcon from "@mui/icons-material/Mail";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 interface ConfigPanelProps {
   mode: string;
@@ -14,6 +15,8 @@ interface ConfigPanelProps {
 const ConfigPanel: React.FC<ConfigPanelProps> = ({ mode, setMode, refreshInterval, setRefreshInterval }) => {
   const [isGmailConnected, setIsGmailConnected] = useState(false);
   const [emailAddress, setEmailAddress] = useState("");
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   useEffect(() => {
     const email = localStorage.getItem("gmailEmail") as string;
@@ -25,16 +28,24 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ mode, setMode, refreshInterva
   };
 
   const handleClearAllData = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to clear all data? This action cannot be undone."
-      )
-    ) {
-      localStorage.removeItem("tasks");
-      localStorage.removeItem("archive");
-      localStorage.removeItem("lastUpdated");
-      window.location.reload();
-    }
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmClearData = () => {
+    localStorage.removeItem("tasks");
+    localStorage.removeItem("archive");
+    localStorage.removeItem("lastUpdated");
+    setIsConfirmModalOpen(false);
+    window.location.reload();
+  };
+
+  const handleLogout = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setIsLogoutModalOpen(false);
+    logout();
   };
 
   return (
@@ -105,10 +116,26 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({ mode, setMode, refreshInterva
       <div className="config-card">
         <h6>Logout</h6>
         <p>End your session securely.</p>
-        <button className="logout-button" onClick={logout}>
+        <button className="logout-button" onClick={handleLogout}>
           Logout
         </button>
       </div>
+      {isConfirmModalOpen && (
+        <ConfirmationModal
+          isOpen={isConfirmModalOpen}
+          message="Are you sure you want to clear all data? This action cannot be undone."
+          onConfirm={handleConfirmClearData}
+          onCancel={() => setIsConfirmModalOpen(false)}
+        />
+      )}
+      {isLogoutModalOpen && (
+        <ConfirmationModal
+          isOpen={isLogoutModalOpen}
+          message="Are you sure you want to logout?"
+          onConfirm={handleConfirmLogout}
+          onCancel={() => setIsLogoutModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

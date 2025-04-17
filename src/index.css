@@ -27,7 +27,7 @@ a:hover {
 
 /* to fix dark mode */
 
-input, textarea {
+input:not([type="checkbox"]), textarea {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   background-color: white !important;
 }
