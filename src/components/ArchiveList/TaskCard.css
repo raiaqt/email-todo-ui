@@ -1,0 +1,130 @@
+/* TaskCard.css - Styles for TaskCard component */
+
+.archive-card {
+    background: rgba(255, 255, 255, 1);
+    border-radius: 8px;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: all 0.2s ease;
+    position: relative;
+    border-left: 4px solid transparent;
+}
+
+.archive-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.archive-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1f2937;
+    margin: 0;
+}
+
+.archive-list .archive-actions {
+    width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+.archive-list .task-meta-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-bottom: 6px;
+}
+
+.archive-meta-group .archive-deadline {
+    display: none;
+}
+
+.archive-list .archive-deadline {
+    /* background-color: #f3f4f6; */
+    border-radius: 6px;
+    font-size: 12px;
+    color: #4b5563;
+}
+
+.archive-list .task-source {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.archive-list .gmail-icon {
+    font-size: 14px !important;
+    color: #D93025;
+    opacity: 0.6;
+}
+
+.archive-list .archive-actions-mobile {
+    display: none;
+}
+
+/* Animation for new task pop up */
+@keyframes popUp {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    70% {
+        transform: scale(0.975);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .archive-list .archive-actions {
+        display: none !important;
+        width: 0 !important;
+        z-index: 1000 !important;
+    }
+
+    .archive-list .archive-card {
+        padding: 12px 8px;
+    }
+
+    .archive-list .archive-left {
+        gap: 8px;
+    }
+
+    .archive-meta-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .archive-meta-group .archive-deadline {
+        display: block;
+    }
+
+    .archive-list .archive-actions-mobile {
+        display: flex;
+    }
+
+
+    .archive-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #1f2937;
+        margin: 0;
+    }
+}

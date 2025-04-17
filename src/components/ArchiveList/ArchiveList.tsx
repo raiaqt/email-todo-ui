@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ArchiveList.css";
 import InboxIcon from "@mui/icons-material/Inbox";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import TaskCard from "../TaskCard/TaskCard";
+import TaskCard from "./TaskCard";
 import { Task } from "../../interface";
 
 interface ArchiveListProps {
