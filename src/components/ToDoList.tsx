@@ -11,7 +11,7 @@ import ConfigPanel from "./ConfigPanel/ConfigPanel";
 import TaskDrawer from "./TaskDrawer/TaskDrawer";
 import { fetchTasks } from "../api/task";
 import logo from "../assets/logo.png";
-import styles from "./ToDoList.module.css";
+import "./ToDoList.css";
 import { Task } from "../interface";
 
 interface ToDoListProps {
@@ -31,7 +31,10 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
     index: number;
   } | null>(null);
   const [tasks, setTasks] = useState<Task[] | null>(null);
+  const [mode, setMode] = useState("creative");
+  const [refreshInterval, setRefreshInterval] = useState(1);
 
+  console.log("mode", mode);
 
   useEffect(() => {
     const email = localStorage.getItem("gmailEmail") as string;
@@ -46,6 +49,20 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
   const handleSelectTask = (task: Task, index: number) => {
     setSelectedTask({ task, index });
   };
+
+  useEffect(() => {
+    if (isGmailConnected) {
+      handlefetchTasks();
+    }
+  }, [isGmailConnected]);
+
+  // NEW: Auto-refresh tasks based on refreshInterval (hours)
+  useEffect(() => {
+    if (isGmailConnected) {
+      const intervalId = setInterval(() => handlefetchTasks(), refreshInterval * 60 * 60 * 1000);
+      return () => clearInterval(intervalId);
+    }
+  }, [isGmailConnected, refreshInterval]);
 
   const renderPanel = () => {
     if (activeView === "dashboard") {
@@ -66,10 +83,14 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
       );
     }
     if (activeView === "archived") {
-      return <ArchiveList onSelectTask={(task, index) => handleSelectTask(task, index)} />;
+      return (
+        <ArchiveList
+          onSelectTask={(task, index) => handleSelectTask(task, index)}
+        />
+      );
     }
     if (activeView === "config") {
-      return <ConfigPanel />;
+      return <ConfigPanel mode={mode} setMode={setMode} refreshInterval={refreshInterval} setRefreshInterval={setRefreshInterval} />;
     }
     return null;
   };
@@ -96,26 +117,26 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
   };
 
   return (
-    <div className={styles.container}>
-      <header className={styles.appHeader}>
-        <div className={styles.appLeft}>
-          <img src={logo} alt="Sortify logo" className={styles.logoIcon} />
-          <span className={styles.logoText}>Sortify</span>
+    <div className={mode === "clean" ? "containerClean" : "container"}>
+      <header className="appHeader">
+        <div className="appLeft">
+          <img src={logo} alt="Sortify logo" className="logoIcon" />
+          <span className="logoText">Sortify</span>
         </div>
-        <div className={styles.appRight}>
-          <div className={styles.taskButtons}>
-            <div className={styles.refreshContainer}>
+        <div className="appRight">
+          <div className="taskButtons">
+            <div className="refreshContainer">
               <button
-                className={styles.addButton}
+                className="addButton"
                 onClick={() => setShowAddTask(true)}
                 disabled={loading || activeView !== "dashboard"}
               >
                 <AddIcon />
               </button>
             </div>
-            <div className={styles.refreshContainer}>
+            <div className="refreshContainer">
               <button
-                className={styles.refreshButton}
+                className="refreshButton"
                 onClick={handlefetchTasks}
                 disabled={
                   !(isGmailConnected && !gmailSuccess) ||
@@ -130,64 +151,57 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
         </div>
       </header>
 
-      <div className={styles.dashboardBody}>
-        <div className={styles.todoContainer}>
-          <main className={styles.dashboardPanel}>
-            <div className={styles.titleRow}>
-              <div className={styles.tabs}>
+      <div className="dashboardBody">
+        <div className="todoContainer">
+          <main className="dashboardPanel">
+            <div className="titleRow">
+              <div className="tabs">
                 <button
-                  className={`${styles.tab} ${
-                    activeView === "dashboard" ? styles.active : ""
+                  className={`tab ${
+                    activeView === "dashboard" ? "active" : ""
                   }`}
                   onClick={() => setActiveView("dashboard")}
                 >
-                  {" "}
                   <ListAltIcon
                     fontSize="small"
                     style={{ marginRight: "8px" }}
-                  />{" "}
+                  />
                   To Do
                 </button>
                 <button
-                  className={`${styles.tab} ${
-                    activeView === "archived" ? styles.active : ""
-                  }`}
+                  className={`tab ${activeView === "archived" ? "active" : ""}`}
                   onClick={() => setActiveView("archived")}
                 >
-                  {" "}
                   <ArchiveIcon
                     fontSize="small"
                     style={{ marginRight: "8px" }}
-                  />{" "}
+                  />
                   Archived
                 </button>
                 <button
-                  className={`${styles.tab} ${
-                    activeView === "config" ? styles.active : ""
-                  }`}
+                  className={`tab ${activeView === "config" ? "active" : ""}`}
                   onClick={() => setActiveView("config")}
                 >
-                  {" "}
                   <SettingsIcon
                     fontSize="small"
                     style={{ marginRight: "8px" }}
-                  />{" "}
+                  />
                   Settings
                 </button>
               </div>
-              <div className={styles.taskButtons}>
-                <div className={styles.refreshContainer}>
+              <div className="taskButtons">
+                <div className="refreshContainer">
                   <button
-                    className={styles.addButton}
+                    className="addButton"
                     onClick={() => setShowAddTask(true)}
                     disabled={loading || activeView !== "dashboard"}
                   >
                     <AddIcon />
                   </button>
                 </div>
-                <div className={styles.refreshContainer}>
+                <div className="refreshContainer">
                   <button
-                    className={styles.refreshButton}
+                    className="refreshButton"
                     onClick={handlefetchTasks}
                     disabled={
                       (!isGmailConnected && !gmailSuccess) ||
@@ -220,27 +234,25 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
         />
       </div>
 
-      <div className={styles.mobileNav}>
+      <div className="mobileNav">
         <button
-          className={`${styles.navButton} ${
-            activeView === "dashboard" ? styles.activeNav : ""
+          className={`navButton ${
+            activeView === "dashboard" ? "activeNav" : ""
           }`}
           onClick={() => setActiveView("dashboard")}
         >
           <ListAltIcon fontSize="small" />
         </button>
         <button
-          className={`${styles.navButton} ${
-            activeView === "archived" ? styles.activeNav : ""
+          className={`navButton ${
+            activeView === "archived" ? "activeNav" : ""
           }`}
           onClick={() => setActiveView("archived")}
         >
           <ArchiveIcon fontSize="small" />
         </button>
         <button
-          className={`${styles.navButton} ${
-            activeView === "config" ? styles.activeNav : ""
-          }`}
+          className={`navButton ${activeView === "config" ? "activeNav" : ""}`}
           onClick={() => setActiveView("config")}
         >
           <SettingsIcon fontSize="small" />

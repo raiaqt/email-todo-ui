@@ -49,10 +49,8 @@ const TaskList: React.FC<TaskListProps> = ({
   useEffect(() => {
     if (!loading) {
       const storedTasks = localStorage.getItem("tasks");
-      console.log("storedTasks", storedTasks);
       if (storedTasks) {
         const parsedTasks = JSON.parse(storedTasks) as Task[];
-        console.log("parsedTasks", parsedTasks);
         const tasksWithFields = parsedTasks.map((task: Task) => ({
           ...task,
           checked: task.checked !== undefined ? task.checked : false,

@@ -59,7 +59,7 @@ const App: React.FC = () => {
     }
 
     const decodedToken = jwtDecode(validToken);
-    console.log("decodedToken", decodedToken);
+    // console.log("decodedToken", decodedToken);
     localStorage.setItem(
       "gmailName",
       (decodedToken as JwtPayloadWithName).name
