@@ -1,5 +1,6 @@
 import React from "react";
 import { addTask, sendTask } from "../../api/addTask";
+import Drawer from "../Drawer/Drawer";
 import "./AddTaskModal.css";
 
 interface AddTaskModalProps {
@@ -44,12 +45,8 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ show, onClose }) => {
   if (!show) return null;
 
   return (
-    <div className="modal">
-      <div className="modal-content animated">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
-        <h2>Add Task</h2>
+    <Drawer onClose={onClose} header="Add Task">
+      <div className="add-task-content animated">
         <form onSubmit={handleSubmit}>
           <div className="assign-toggle">
             <label
@@ -162,7 +159,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ show, onClose }) => {
           </button>
         </form>
       </div>
-    </div>
+    </Drawer>
   );
 };
 

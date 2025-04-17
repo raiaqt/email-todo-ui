@@ -1,0 +1,87 @@
+.drawerOverlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: flex-end;
+    z-index: 1000;
+}
+
+.drawerOverlayBlur {
+    padding: 16px 0 16px 16px;
+    box-sizing: border-box;
+}
+
+.drawer {
+    background: rgba(249, 250, 251, 1);
+    width: 420px;
+    max-width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    box-shadow: -2px 0 16px rgba(0, 0, 0, 0.1);
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease-out;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    border-radius: 16px 0 0 16px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.drawerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.drawerHeaderTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    font-size: 1.2rem;
+    transition: color 0.2s;
+    padding: 0 4px;
+    /* margin-top: -10px; */
+}
+
+.closeButton:hover {
+    color: #171e69;
+}
+
+@media (max-width: 600px) {
+    .drawer {
+        width: 100%;
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .drawerOverlayBlur {
+        padding: 16px 16px 66px 16px;
+        box-sizing: border-box;
+    }
+}

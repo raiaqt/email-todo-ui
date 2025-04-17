@@ -1,13 +1,13 @@
 import React from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import EventNoteIcon from "@mui/icons-material/EventNote";
-import styles from "./TaskDrawer.module.css";
+import Drawer from "../Drawer/Drawer";
+import "./TaskDrawer.css";
 import { Task } from "../../interface";
 
-interface TaskDrawerProps {
+interface TaskDrawerContentProps {
   task: Task;
   onClose: () => void;
   onArchive: (index: number) => void;
@@ -15,7 +15,7 @@ interface TaskDrawerProps {
   index: number;
 }
 
-const TaskDrawer: React.FC<TaskDrawerProps> = ({
+const TaskDrawerContent: React.FC<TaskDrawerContentProps> = ({
   task,
   onClose,
   onArchive,
@@ -34,69 +34,62 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({
 
   const handleArchive = () => {
     onArchive(index);
-    // onClose();
   };
 
   const handlePrioritize = () => {
     onPrioritize(index);
-    // onClose();
   };
 
   return (
-    <div className={styles.drawerOverlay} onClick={onClose}>
-      <div className={styles.drawer} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.drawerHeader}>
-          <div className={styles.metaBlock} style={{ paddingBottom: 12 }}>
-            <span
-              className={styles.metaValue}
-              style={{ fontWeight: 600, fontSize: "16px", paddingBottom: 0 }}
-            >
-              Task Details
-            </span>
+    <Drawer onClose={onClose} header="Task Details">
+      <div className="drawerContent">
+        <div className="metaBlockDeadline">
+          <EventNoteIcon
+            style={{ fontSize: 18, marginRight: 6, color: "#6b7280" }}
+          />
+          <span className="deadlineBadge">{formatDeadline(task.deadline)}</span>
+        </div>
+        <div className="metaBlock">
+          {/* <div className="textContainerBlue"> */}
+          {/* <span className="metaValue" style={{ fontWeight: 600 }}>
+              {task.from}
+            </span> */}
+          {/* </div> */}
+        </div>
+        <div className="metaBlock">
+          <span className="metaLabel">From {task.from}:</span>
+          <div className="textContainerBlue">
+            <span className="metaValue">{task.subject}</span>
           </div>
-          <button onClick={onClose} className={styles.closeButton}>
-            <CloseIcon />
+        </div>
+        <div className="metaBlock">
+          <span className="metaLabel">Tasks:</span>
+          <div className="textContainer">
+            <span className="metaValue">{task.summary}</span>
+          </div>
+        </div>
+        <div className="drawerFooter">
+          <button
+            className="actionButton actionButton_archive"
+            onClick={handleArchive}
+          >
+            <ArchiveIcon fontSize="small" /> Archive
+          </button>
+          <button
+            className="actionButton actionButton_prioritize"
+            onClick={handlePrioritize}
+          >
+            {task.priority ? (
+              <StarIcon fontSize="small" />
+            ) : (
+              <StarBorderIcon fontSize="small" />
+            )}{" "}
+            {task.priority ? "Deprioritize" : "Prioritize"}
           </button>
         </div>
-        <div className={styles.drawerContent}>
-          <div className={styles.metaBlockDeadline}>
-            <EventNoteIcon
-              style={{ fontSize: 18, marginRight: 6, color: "#6b7280" }}
-            />
-            <span className={styles.deadlineBadge}>
-              {formatDeadline(task.deadline)}
-            </span>
-          </div>
-          <div className={styles.metaBlock}>
-            <span className={styles.metaLabel}>{task.from} wrote:</span>
-            <div className={styles.textContainerBlue}>
-              <span className={styles.metaValue} style={{ fontWeight: 600 }}>{task.subject}</span>
-            </div>
-          </div>
-          <div className={styles.metaBlock}>
-            <span className={styles.metaLabel}>Tasks:</span>
-            <div className={styles.textContainer}>
-              <span className={styles.metaValue}>{task.summary}</span>
-            </div>
-          </div>
-          <div className={styles.drawerFooter}>
-            <button
-              className={`${styles.actionButton} ${styles.actionButton_archive}`}
-              onClick={handleArchive}
-            >
-              <ArchiveIcon fontSize="small" /> Archive
-            </button>
-            <button
-              className={`${styles.actionButton} ${styles.actionButton_prioritize}`}
-              onClick={handlePrioritize}
-            >
-              {task.priority ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />} {task.priority ? "Deprioritize" : "Prioritize"}
-            </button>
-          </div>
-        </div>
       </div>
-    </div>
+    </Drawer>
   );
 };
 
-export default TaskDrawer;
+export default TaskDrawerContent;

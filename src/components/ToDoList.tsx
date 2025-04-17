@@ -34,8 +34,6 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
   const [mode, setMode] = useState("creative");
   const [refreshInterval, setRefreshInterval] = useState(1);
 
-  console.log("mode", mode);
-
   useEffect(() => {
     const email = localStorage.getItem("gmailEmail") as string;
     setIsGmailConnected(!!email);

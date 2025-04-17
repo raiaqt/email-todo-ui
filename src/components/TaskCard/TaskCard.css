@@ -1,7 +1,7 @@
 /* TaskCard.css - Styles for TaskCard component */
 
 .task-card {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 16px;
     padding: 16px 20px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
