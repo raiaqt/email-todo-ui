@@ -14,17 +14,18 @@
   align-items: center;
   justify-content: space-between;
   padding: 60px 80px;
-  background: linear-gradient(180deg,
-      #d3e0f2 0%,
-      #e2e9f7 15%,
-      #f3f4f6 45%,
-      #fdf1e9 60%,
-      #fdf1e9 90%,
-      #F3F4F6 100%);
+  background: linear-gradient(170deg,
+      #e5ecf7 0%,
+      #edf1f9 15%,
+      #f7f8fa 45%,
+      #fef8f1 60%,
+      #fef8f1 90%,
+      #f7f8fa 100%);
   /* background-attachment: fixed; */
   background-size: cover;
   background-repeat: no-repeat;
   padding-bottom: 100px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   /* border-bottom: 1px solid rgba(0, 0, 0, 0.05); */
 }
 
