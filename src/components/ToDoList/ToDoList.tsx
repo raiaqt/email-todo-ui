@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import TaskList from "./TaskList/TaskList";
-import ArchiveList from "./ArchiveList/ArchiveList";
+import TaskList from "../TaskList/TaskList";
+import ArchiveList from "../ArchiveList/ArchiveList";
 import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import ArchiveIcon from "@mui/icons-material/Archive";
-import AddTaskModal from "./AddTaskModal/AddTaskModal";
-import ConfigPanel from "./ConfigPanel/ConfigPanel";
-import TaskDrawer from "./TaskDrawer/TaskDrawer";
-import { fetchTasks } from "../api/task";
-import logo from "../assets/logo.png";
+import AddTaskModal from "../AddTaskModal/AddTaskModal";
+import ConfigPanel from "../ConfigPanel/ConfigPanel";
+import TaskDrawer from "../TaskDrawer/TaskDrawer";
+import { fetchTasks } from "../../api/task";
+import logo from "../../assets/logo.png";
 import "./ToDoList.css";
-import { Task } from "../interface";
+import { Task } from "../../interface";
 
 interface ToDoListProps {
   gmailLoading: boolean;

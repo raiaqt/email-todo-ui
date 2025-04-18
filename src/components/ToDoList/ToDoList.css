@@ -35,6 +35,10 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  background: linear-gradient(175deg,
+  #b1c5e1 0%,
+  #c8d4ed 100%,
+  );
 }
 
 .appLeft {

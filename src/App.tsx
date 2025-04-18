@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import LandingPage from "./components/LandingPage";
-import ToDoList from "./components/ToDoList";
-import Loader from "./components/Loader";
+import LandingPage from "./components/LandingPage/LandingPage";
+import ToDoList from "./components/ToDoList/ToDoList";
+import Loader from "./components/Loader/Loader";
 import { exchangeCodeForTokens, refreshAccessToken } from "./api/auth";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayloadWithName } from "./types";

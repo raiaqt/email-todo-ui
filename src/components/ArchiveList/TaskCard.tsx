@@ -19,18 +19,8 @@ interface TaskCardProps {
 const formatDeadline = (deadline: string): string => {
   const validRegex = /^\d{4}-\d{2}-\d{2}$/;
   if (!deadline || !validRegex.test(deadline)) return "No deadline";
-  const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
-  const tomorrow = new Date();
-  tomorrow.setDate(today.getDate() + 1);
-  const tomorrowStr = tomorrow.toISOString().slice(0, 10);
-  const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
-  const yesterdayStr = yesterday.toISOString().slice(0, 10);
-  if (deadline === todayStr) return "Today";
-  if (deadline === tomorrowStr) return "Tomorrow";
-  if (deadline === yesterdayStr) return "Yesterday";
-  return deadline;
+  const date = new Date(deadline);
+  return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 };
 
 const TaskCard: React.FC<TaskCardProps> = ({

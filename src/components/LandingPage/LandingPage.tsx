@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import "./LandingPage.css";
-import inboxflow from "../assets/inboxflow.png";
-import dashboard from "../assets/dashboard.png";
-import logo from "../assets/logo.png";
-import aiSort from "../assets/aiSort.png";
+import inboxflow from "../../assets/inboxflow.png";
+import dashboard from "../../assets/dashboard.png";
+import logo from "../../assets/logo.png";
+import aiSort from "../../assets/aiSort.png";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import ArchiveIcon from "@mui/icons-material/Archive";
-import futureVision from "../assets/futureVision.png";
-import { submitEmail } from "../api/submitEmail";
-import WaitlistModal from "./WaitlistModal";
-import FeedbackModal from "./FeedbackModal";
+import futureVision from "../../assets/futureVision.png";
+import { submitEmail } from "../../api/submitEmail";
+import WaitlistModal from "../WaitlistModal/WaitlistModal";
+import FeedbackModal from "../FeedbackModal/FeedbackModal";
 
 const LandingPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);

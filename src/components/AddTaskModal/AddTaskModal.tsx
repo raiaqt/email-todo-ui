@@ -46,7 +46,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ show, onClose }) => {
 
   return (
     <Drawer onClose={onClose} header="Add Task">
-      <div className="add-task-content animated">
+      <div className="add-task-content">
         <form onSubmit={handleSubmit}>
           <div className="assign-toggle">
             <label

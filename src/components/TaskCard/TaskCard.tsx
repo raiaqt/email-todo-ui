@@ -22,18 +22,22 @@ interface TaskCardProps {
 const formatDeadline = (deadline: string): string => {
   const validRegex = /^\d{4}-\d{2}-\d{2}$/;
   if (!deadline || !validRegex.test(deadline)) return "No deadline";
+
   const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
-  const tomorrow = new Date();
-  tomorrow.setDate(today.getDate() + 1);
-  const tomorrowStr = tomorrow.toISOString().slice(0, 10);
-  const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
-  const yesterdayStr = yesterday.toISOString().slice(0, 10);
-  if (deadline === todayStr) return "Today";
-  if (deadline === tomorrowStr) return "Tomorrow";
-  if (deadline === yesterdayStr) return "Yesterday";
-  return deadline;
+  today.setHours(0, 0, 0, 0);
+  const deadlineDate = new Date(deadline);
+  deadlineDate.setHours(0, 0, 0, 0);
+
+  const diffTime = deadlineDate.getTime() - today.getTime();
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) {
+    return "due today";
+  } else if (diffDays > 0) {
+    return `due in ${diffDays} day${diffDays > 1 ? "s" : ""}`;
+  } else {
+    return `${Math.abs(diffDays)} day${Math.abs(diffDays) > 1 ? "s" : ""} past due`;
+  }
 };
 
 const TaskCard: React.FC<TaskCardProps> = ({

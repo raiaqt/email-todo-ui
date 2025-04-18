@@ -87,6 +87,7 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    width: 100%;
 }
 
 .task-title {
@@ -94,6 +95,7 @@
     font-weight: 600;
     color: #1f2937;
     margin: 0;
+    width: 100%;
 }
 
 .task-title.completed {
@@ -163,8 +165,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     padding-bottom: 6px;
+    width: 100%;
 }
 
 .task-deadline {

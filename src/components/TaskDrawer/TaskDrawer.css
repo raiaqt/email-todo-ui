@@ -97,3 +97,14 @@
     font-weight: 500;
     display: inline-block;
 }
+
+/* Adding a new style for the day badge */
+.dayBadge {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-block;
+}

@@ -23,14 +23,24 @@ const TaskDrawerContent: React.FC<TaskDrawerContentProps> = ({
   index,
 }) => {
   const formatDeadline = (deadline: string) => {
-    if (!deadline) return "No deadline";
+    if (!deadline) return "No Deadline";
     const date = new Date(deadline);
+    if (isNaN(date.getTime())) return "No Deadline";
     return date.toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
       year: "numeric",
     });
   };
+
+  const formatDay = (deadline: string) => {
+    if (!deadline) return "";
+    const date = new Date(deadline);
+    if (isNaN(date.getTime())) return "";
+    return date.toLocaleDateString("en-US", { weekday: "long" });
+  };
+
+  const day = formatDay(task.deadline);
 
   const handleArchive = () => {
     onArchive(index);
@@ -48,6 +58,7 @@ const TaskDrawerContent: React.FC<TaskDrawerContentProps> = ({
             style={{ fontSize: 18, marginRight: 6, color: "#6b7280" }}
           />
           <span className="deadlineBadge">{formatDeadline(task.deadline)}</span>
+          {day && <span className="dayBadge">{day}</span>}
         </div>
         <div className="metaBlock">
           {/* <div className="textContainerBlue"> */}

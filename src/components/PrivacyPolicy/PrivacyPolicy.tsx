@@ -1,9 +1,9 @@
 import React from "react";
-import styles from "./PrivacyPolicy.module.css";
+import "./PrivacyPolicy.css";
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className={styles.privacyContainer}>
+    <div className="privacyContainer">
       <h1>Privacy Policy</h1>
       <p><strong>Last Updated:</strong> April 10, 2025</p>
 
@@ -40,7 +40,7 @@ const PrivacyPolicy: React.FC = () => {
 
       <h2>Google API Services Compliance</h2>
       <p>
-        Sortify’s use of information received from Google APIs adheres to the{" "}
+        Sortify's use of information received from Google APIs adheres to the{" "}
         <a
           href="https://developers.google.com/terms/api-services-user-data-policy"
           target="_blank"

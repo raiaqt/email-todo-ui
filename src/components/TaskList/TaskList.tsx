@@ -152,7 +152,7 @@ const TaskList: React.FC<TaskListProps> = ({
             justifyContent: "center",
           }}
         >
-          <EmailIcon style={{ marginRight: 8, height: 20, width: 20 }} />
+          <EmailIcon style={{ marginRight: 8, height: 20, width: 20, color: "#fff" }} />
           Connect with Gmail
         </button>
         <p>or</p>

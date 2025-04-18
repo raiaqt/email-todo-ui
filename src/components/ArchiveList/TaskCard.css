@@ -39,6 +39,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     padding-bottom: 6px;
+    width: 100%;
 }
 
 .archive-meta-group .archive-deadline {
@@ -110,6 +111,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 100%;
     }
 
     .archive-meta-group .archive-deadline {
@@ -118,6 +120,7 @@
 
     .archive-list .archive-actions-mobile {
         display: flex;
+        width: unset;
     }
 
 
