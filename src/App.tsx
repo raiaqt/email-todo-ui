@@ -78,13 +78,26 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const lastUpdated = localStorage.getItem("lastUpdated");
+    if (!lastUpdated) {
+      localStorage.setItem("lastUpdated", new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString());
+    }
+  }, []);
+
+  useEffect(() => {
     const name = localStorage.getItem("name");
     setName(name);
   }, []);
 
   return (
     <div className="app-container">
-      {loading ? <Loader /> : name ? <ToDoList gmailLoading={loading} gmailSuccess={gmailSuccess} /> : <LandingPage />}
+      {loading ? (
+        <Loader />
+      ) : name ? (
+        <ToDoList gmailLoading={loading} gmailSuccess={gmailSuccess} />
+      ) : (
+        <LandingPage />
+      )}
     </div>
   );
 };

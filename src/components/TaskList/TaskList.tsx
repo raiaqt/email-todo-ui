@@ -46,29 +46,36 @@ const TaskList: React.FC<TaskListProps> = ({
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [captionIndex, setCaptionIndex] = useState(0);
 
+  const localStorageTasks = localStorage.getItem("tasks");
+  const localStorageLastUpdated = localStorage.getItem("lastUpdated");
+
   useEffect(() => {
-    if (!loading) {
-      const storedTasks = localStorage.getItem("tasks");
-      if (storedTasks) {
-        const parsedTasks = JSON.parse(storedTasks) as Task[];
-        const tasksWithFields = parsedTasks.map((task: Task) => ({
-          ...task,
-          checked: task.checked !== undefined ? task.checked : false,
-          priority:
-            task.priority !== undefined
-              ? task.priority
-              : !task.deadline || task.deadline === "No deadline"
-              ? false
-              : new Date(task.deadline).setHours(0,0,0,0) <= new Date().setHours(0,0,0,0),
-        }));
-        setTasks(tasksWithFields);
-      }
-      const lastUpdatedTime = localStorage.getItem("lastUpdated");
-      if (lastUpdatedTime) {
-        setLastUpdated(lastUpdatedTime);
-      }
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+      const parsedTasks = JSON.parse(storedTasks) as Task[];
+      const tasksWithFields = parsedTasks.map((task: Task) => ({
+        ...task,
+        checked: task.checked !== undefined ? task.checked : false,
+        priority:
+          task.priority !== undefined
+            ? task.priority
+            : !task.deadline || task.deadline === "No deadline"
+            ? false
+            : new Date(task.deadline).setHours(0, 0, 0, 0) <=
+              new Date().setHours(0, 0, 0, 0),
+      }));
+      setTasks(tasksWithFields);
     }
-  }, [loading, showAddTask]);
+    const lastUpdatedTime = localStorage.getItem("lastUpdated");
+    if (lastUpdatedTime) {
+      setLastUpdated(lastUpdatedTime);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localStorageTasks, showAddTask]);
+
+  useEffect(() => {
+    setLastUpdated(localStorageLastUpdated);
+  }, [localStorageLastUpdated]);
 
   // NEW: Cleanup new tasks on unmount
   useEffect(() => {
@@ -95,9 +102,8 @@ const TaskList: React.FC<TaskListProps> = ({
       setCaptionIndex((prev) => (prev + 1) % loadingCaptions.length);
     }, 2000);
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, loadingCaptions.length]);
-
- 
 
   const toggleTask = (index: number) => {
     const newTasks = [...safeTasks];
@@ -152,7 +158,9 @@ const TaskList: React.FC<TaskListProps> = ({
             justifyContent: "center",
           }}
         >
-          <EmailIcon style={{ marginRight: 8, height: 20, width: 20, color: "#fff" }} />
+          <EmailIcon
+            style={{ marginRight: 8, height: 20, width: 20, color: "#fff" }}
+          />
           Connect with Gmail
         </button>
         <p>or</p>
