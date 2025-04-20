@@ -102,7 +102,6 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
     localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
 
-  // NEW: Function to archive a task
   const handleArchiveTask = (index: number) => {
     const taskToArchive = safeTasks[index];
     const updatedTasks = safeTasks.filter((_, i) => i !== index);
@@ -111,6 +110,13 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
     const currentArchive = localStorage.getItem("archive");
     const archiveList = currentArchive ? JSON.parse(currentArchive) : [];
     archiveList.unshift(taskToArchive);
+    localStorage.setItem("archive", JSON.stringify(archiveList));
+  };
+
+  const handleDeleteArchive = (index: number) => {
+    const currentArchive = localStorage.getItem("archive");
+    const archiveList = currentArchive ? JSON.parse(currentArchive) : [];
+    archiveList.splice(index, 1);
     localStorage.setItem("archive", JSON.stringify(archiveList));
   };
 
@@ -222,6 +228,8 @@ const ToDoList: React.FC<ToDoListProps> = ({ gmailLoading, gmailSuccess }) => {
               onArchive={() => handleArchiveTask(selectedTask.index)}
               onPrioritize={() => togglePriority(selectedTask.index)}
               index={selectedTask.index}
+              hideButtons={activeView === "archived"}
+              onDeleteArchive={handleDeleteArchive}
             />
           )}
         </div>

@@ -25,6 +25,15 @@ const LastUpdated: React.FC<LastUpdatedProps> = ({ loading, lastUpdated }) => {
   };
 
   const [tick, setTick] = useState(0);
+  const [loadingDots, setLoadingDots] = useState("");
+  useEffect(() => {
+    if (!loading) return;
+    const interval = setInterval(() => {
+      setLoadingDots(prev => (prev === "..." ? "" : prev + "."));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [loading]);
+
   useEffect(() => {
     if (!lastUpdated) return;
     function scheduleNextUpdate() {
@@ -57,7 +66,7 @@ const LastUpdated: React.FC<LastUpdatedProps> = ({ loading, lastUpdated }) => {
 
   return (
     <div className="last-updated" style={{ fontSize: "0.8em", fontWeight: "500", color: "#656c69", marginBottom: "0", textAlign: "center" }}>
-      {loading ? "Creating latest tasks..." : `Last updated ${formatRelativeTime(lastUpdated)}`}
+      {loading ? `Creating latest tasks${loadingDots}` : `Last updated ${formatRelativeTime(lastUpdated)}`}
     </div>
   );
 };

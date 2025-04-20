@@ -12,13 +12,13 @@ interface ArchiveListProps {
 
 const ArchiveList: React.FC<ArchiveListProps> = ({ error, onSelectTask }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const localStorageArchive = localStorage.getItem("archive");
 
   useEffect(() => {
-    const storedArchive = localStorage.getItem("archive");
-    if (storedArchive) {
-      setTasks(JSON.parse(storedArchive));
+    if (localStorageArchive) {
+      setTasks(JSON.parse(localStorageArchive));
     }
-  }, []);
+  }, [localStorageArchive]);
 
   if (error) {
     return (

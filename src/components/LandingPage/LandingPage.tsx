@@ -27,7 +27,7 @@ const LandingPage: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await submitEmail(email);
+      await submitEmail(name, email);
       setFeedbackMessage(
         "You'll be redirected to the dashboard. Get ready for a more productive inbox!"
       );

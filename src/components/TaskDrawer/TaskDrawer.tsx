@@ -3,6 +3,7 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Drawer from "../Drawer/Drawer";
 import "./TaskDrawer.css";
 import { Task } from "../../interface";
@@ -13,6 +14,8 @@ interface TaskDrawerContentProps {
   onArchive: (index: number) => void;
   onPrioritize: (index: number) => void;
   index: number;
+  hideButtons?: boolean;
+  onDeleteArchive: (index: number) => void;
 }
 
 const TaskDrawerContent: React.FC<TaskDrawerContentProps> = ({
@@ -21,6 +24,8 @@ const TaskDrawerContent: React.FC<TaskDrawerContentProps> = ({
   onArchive,
   onPrioritize,
   index,
+  hideButtons = false,
+  onDeleteArchive,
 }) => {
   const formatDeadline = (deadline: string) => {
     if (!deadline) return "No Deadline";
@@ -44,10 +49,17 @@ const TaskDrawerContent: React.FC<TaskDrawerContentProps> = ({
 
   const handleArchive = () => {
     onArchive(index);
+    onClose();
   };
 
   const handlePrioritize = () => {
     onPrioritize(index);
+    onClose();
+  };
+
+  const handleDeleteArchive = () => {
+    onDeleteArchive(index);
+    onClose();
   };
 
   return (
@@ -80,23 +92,34 @@ const TaskDrawerContent: React.FC<TaskDrawerContentProps> = ({
           </div>
         </div>
         <div className="drawerFooter">
-          <button
-            className="actionButton actionButton_archive"
-            onClick={handleArchive}
-          >
-            <ArchiveIcon fontSize="small" /> Archive
-          </button>
-          <button
-            className="actionButton actionButton_prioritize"
-            onClick={handlePrioritize}
-          >
-            {task.priority ? (
-              <StarIcon fontSize="small" />
-            ) : (
-              <StarBorderIcon fontSize="small" />
-            )}{" "}
-            {task.priority ? "Deprioritize" : "Prioritize"}
-          </button>
+          {hideButtons ? (
+            <button
+              className="actionButton actionButton_archive"
+              onClick={handleDeleteArchive}
+            >
+              <DeleteIcon fontSize="small" /> Delete
+            </button>
+          ) : (
+            <>
+              <button
+                className="actionButton actionButton_archive"
+                onClick={handleArchive}
+              >
+                <ArchiveIcon fontSize="small" /> Archive
+              </button>
+              <button
+                className="actionButton actionButton_prioritize"
+                onClick={handlePrioritize}
+              >
+                {task.priority ? (
+                  <StarIcon fontSize="small" />
+                ) : (
+                  <StarBorderIcon fontSize="small" />
+                )}{" "}
+                {task.priority ? "Deprioritize" : "Prioritize"}
+              </button>
+            </>
+          )}
         </div>
       </div>
     </Drawer>

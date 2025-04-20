@@ -39,13 +39,15 @@ export const addTask = async ({
   summary: string;
 }) => {
   try {
+    const timestamp = Date.now();
     const newTasks = [
       {
-        deadline,
+        deadline: deadline || "N/A",
         summary,
         from: localStorage.getItem("name") || "",
         subject: "Task Added",
         isNew: true,
+        createdAt: timestamp,
       },
     ];
 
@@ -66,6 +68,20 @@ export const addTask = async ({
     });
 
     localStorage.setItem("tasks", JSON.stringify(mergedTasks));
+
+    setTimeout(() => {
+      const stored = localStorage.getItem("tasks");
+      if (stored) {
+        const tasksList = JSON.parse(stored);
+        tasksList.forEach((task: { createdAt: number; isNew: boolean }) => {
+          if (task.createdAt === timestamp) {
+            task.isNew = false;
+          }
+        });
+        localStorage.setItem("tasks", JSON.stringify(tasksList));
+      }
+    }, 10000);
+
     return newTasks;
   } catch (error) {
     console.error("Error adding task:", error);

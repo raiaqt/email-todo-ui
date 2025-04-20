@@ -112,17 +112,17 @@ const TaskList: React.FC<TaskListProps> = ({
     localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
 
-  useEffect(() => {
-    if (tasks && tasks.length > 0) {
-      const firstNewTaskElement = document.querySelector(".task-card.new-task");
-      if (firstNewTaskElement) {
-        firstNewTaskElement.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    }
-  }, [tasks]);
+  // useEffect(() => {
+  //   if (tasks && tasks.length > 0) {
+  //     const firstNewTaskElement = document.querySelector(".task-card.new-task");
+  //     if (firstNewTaskElement) {
+  //       firstNewTaskElement.scrollIntoView({
+  //         behavior: "smooth",
+  //         block: "start",
+  //       });
+  //     }
+  //   }
+  // }, [tasks]);
 
   if (loading && (!tasks || tasks.length === 0)) {
     return (

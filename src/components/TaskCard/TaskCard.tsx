@@ -51,6 +51,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
   onSelectTask,
   index,
 }) => {
+  const handleArchive = () => {
+    handleArchiveTask();
+  };
   return (
     <motion.div
       layout
@@ -78,7 +81,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
                 className="task-btn archive"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleArchiveTask();
+                  handleArchive();
                 }}
               >
                 <ArchiveIcon />
