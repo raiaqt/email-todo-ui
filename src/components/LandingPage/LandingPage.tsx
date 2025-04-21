@@ -68,7 +68,7 @@ const LandingPage: React.FC = () => {
           </p>
           <div className="hero-cta">
             <button className="btn primary" onClick={handleWaitlistClick}>
-              Ready to try it out?
+              Try it out for free
             </button>
           </div>
           <p className="hero-note">No Gmail access required.</p>
